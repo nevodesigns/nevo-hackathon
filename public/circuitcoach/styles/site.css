@@ -1,0 +1,368 @@
+/* CircuitCoach site. Same design system as the simulator, per spec section 5:
+   PCB green ground, copper accent, monospace for every readout. No gradients,
+   no vertical accent bars, no decorative flourishes. */
+
+:root {
+  --pcb:        #14332B;
+  --pcb-deep:   #0E241E;
+  --pcb-raise:  #1B4034;
+  --pcb-lift:   #235045;
+  --copper:     #C08552;
+  --copper-hi:  #D9A06B;
+  --silk:       #EDEAE2;
+  --silk-dim:   #C9CFC9;
+  --solder:     #7C8983;
+  --amber:      #E8A33D;
+  --brick:      #B8493F;
+  --edge:       #2A5648;
+  --edge-soft:  #21473C;
+
+  /* Solder grey and copper are correct as borders and fills, but at small text
+     sizes they measure 3.75:1 and 4.37:1 on the PCB ground, under the 4.5:1
+     WCAG AA floor. These lightened pairs are for small text only. */
+  --solder-text: #96A19B;   /* 5.12:1 on --pcb */
+  --copper-text: #C68F5E;   /* 4.87:1 on --pcb */
+
+  --display: "Chakra Petch", "Eurostile", system-ui, sans-serif;
+  --body:    "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --wrap: 1140px;
+  --bar-h: 60px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--bar-h) + 12px); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--pcb);
+  color: var(--silk);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--copper-hi); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code {
+  font-family: var(--mono);
+  font-size: .92em;
+  color: var(--amber);
+  background: var(--pcb-deep);
+  border: 1px solid var(--edge-soft);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+em { font-style: italic; color: var(--silk-dim); }
+
+.skip {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--copper); color: var(--pcb-deep);
+  padding: 10px 16px; z-index: 100;
+}
+.skip:focus { left: 8px; top: 8px; }
+
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+/* ---------- top bar ---------- */
+
+.bar {
+  position: sticky; top: 0; z-index: 50;
+  height: var(--bar-h);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px;
+  padding: 0 24px;
+  background: rgba(14, 36, 30, .94);
+  border-bottom: 1px solid var(--edge);
+  backdrop-filter: blur(6px);
+}
+
+.mark { display: flex; align-items: center; gap: 10px; }
+.mark .led { width: 30px; height: 20px; flex: 0 0 auto; }
+.mark.small .led { width: 25px; height: 17px; }
+.wordmark {
+  font-family: var(--display);
+  font-weight: 700; font-size: 16px; letter-spacing: .11em;
+  color: var(--silk);
+}
+.wordmark em { font-style: normal; color: var(--copper-text); }
+
+.bar-nav { display: flex; align-items: center; gap: 26px; }
+.bar-nav a {
+  font-family: var(--mono);
+  font-size: 12px; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--solder-text);
+}
+.bar-nav a:hover { color: var(--silk); text-decoration: none; }
+.bar-nav a.here { color: var(--copper-text); }
+.bar-cta {
+  border: 1px solid var(--edge);
+  border-radius: 3px;
+  padding: 8px 14px;
+  color: var(--silk) !important;
+}
+.bar-cta:hover { border-color: var(--copper); color: var(--copper-hi) !important; }
+
+/* ---------- shared section frame ---------- */
+
+section {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 84px 24px;
+}
+.band {
+  background: var(--pcb-deep);
+  max-width: none;
+  padding-left: max(24px, calc((100% - var(--wrap)) / 2));
+  padding-right: max(24px, calc((100% - var(--wrap)) / 2));
+}
+
+h1, h2, h3 { font-family: var(--display); letter-spacing: .01em; line-height: 1.14; }
+h1 { font-size: clamp(34px, 5.4vw, 60px); font-weight: 700; margin: 0 0 20px; }
+h2 { font-size: clamp(25px, 3.2vw, 36px); font-weight: 600; margin: 0 0 12px; }
+h3 { font-size: 20px; font-weight: 600; margin: 0 0 8px; }
+
+.sub { color: var(--silk-dim); max-width: 66ch; margin: 0 0 40px; }
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--solder-text);
+  margin: 0 0 14px;
+}
+
+/* ---------- hero ---------- */
+
+.hero { padding-top: 96px; padding-bottom: 76px; }
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--copper-text);
+  margin: 0 0 22px;
+}
+.lede { font-size: 19px; color: var(--silk-dim); max-width: 66ch; margin: 0 0 32px; }
+
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-block;
+  font-family: var(--display);
+  font-weight: 600; font-size: 14px; letter-spacing: .07em;
+  padding: 13px 22px;
+  border: 1px solid var(--edge);
+  border-radius: 3px;
+  color: var(--silk);
+  background: transparent;
+}
+.btn:hover { border-color: var(--copper); color: var(--copper-hi); text-decoration: none; }
+.btn-primary {
+  background: var(--copper);
+  border-color: var(--copper);
+  color: var(--pcb-deep);
+}
+.btn-primary:hover { background: var(--copper-hi); border-color: var(--copper-hi); color: var(--pcb-deep); }
+
+.hero-facts {
+  list-style: none; margin: 44px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px; background: var(--edge-soft);
+  border: 1px solid var(--edge-soft);
+}
+.hero-facts li {
+  background: var(--pcb);
+  padding: 14px 16px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--solder-text);
+}
+.hero-facts b {
+  display: block;
+  font-size: 26px; font-weight: 500;
+  color: var(--copper);
+  margin-bottom: 2px;
+}
+
+/* ---------- two column split ---------- */
+
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+.split p { color: var(--silk-dim); margin: 0 0 16px; }
+
+/* ---------- video ---------- */
+
+.video-wrap {
+  border: 1px solid var(--edge);
+  border-radius: 5px;
+  overflow: hidden;
+  background: #000;
+  line-height: 0;
+}
+.video-wrap video { width: 100%; height: auto; display: block; }
+/* Drive serves the demo, so the frame has to hold 16:9 itself rather than being
+   sized by an intrinsic video. aspect-ratio keeps it correct at every width. */
+.video-embed { position: relative; aspect-ratio: 16 / 9; }
+.video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.caption {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--solder-text);
+  margin: 14px 0 0;
+}
+
+/* ---------- tiers ---------- */
+
+.tier {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 48px;
+  align-items: center;
+  padding: 40px 0;
+  border-top: 1px solid var(--edge-soft);
+}
+.tier.reverse { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
+.tier.reverse .tier-text { order: 2; }
+.tier-n {
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--copper-text);
+  margin: 0 0 8px;
+}
+.tier-text p { color: var(--silk-dim); margin: 0 0 14px; }
+.readout {
+  font-family: var(--mono) !important;
+  font-size: 12.5px;
+  color: var(--amber) !important;
+  background: var(--pcb-deep);
+  border: 1px solid var(--edge-soft);
+  border-radius: 3px;
+  padding: 9px 12px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.tier figure { margin: 0; }
+.tier img {
+  width: 100%; height: auto; display: block;
+  border: 1px solid var(--edge);
+  border-radius: 5px;
+}
+
+/* ---------- tutor ---------- */
+
+.tutor-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 48px;
+  align-items: center;
+}
+.ladder { list-style: none; margin: 0; padding: 0; }
+.ladder li {
+  padding: 20px 0;
+  border-top: 1px solid var(--edge-soft);
+}
+.ladder li:first-child { border-top: 0; padding-top: 0; }
+.ladder .step {
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--solder-text);
+  margin: 0 0 4px;
+}
+.ladder h3 { color: var(--copper); margin-bottom: 4px; }
+.ladder p:last-child { color: var(--silk-dim); margin: 0; }
+
+.tutor-shot { margin: 0; }
+.tutor-shot img {
+  width: 100%; height: auto; display: block;
+  border: 1px solid var(--edge);
+  border-radius: 5px;
+}
+.tutor-shot figcaption {
+  font-size: 14px;
+  color: var(--solder-text);
+  margin-top: 12px;
+}
+
+/* ---------- engineering cards ---------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1px;
+  background: var(--edge-soft);
+  border: 1px solid var(--edge-soft);
+  margin-bottom: 64px;
+}
+.card { background: var(--pcb); padding: 26px 24px; }
+.card h3 { color: var(--copper); }
+.card p { color: var(--silk-dim); margin: 0; font-size: 15.5px; }
+
+.faults-title { font-size: 22px; margin-bottom: 10px; }
+.faults {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.faults li {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--silk-dim);
+  background: var(--pcb-deep);
+  border: 1px solid var(--edge-soft);
+  border-radius: 3px;
+  padding: 6px 11px;
+}
+
+/* ---------- closer ---------- */
+
+.closer { text-align: center; padding-top: 40px; padding-bottom: 96px; }
+.closer .sub { margin-left: auto; margin-right: auto; }
+.closer .cta-row { justify-content: center; }
+
+/* ---------- footer ---------- */
+
+.foot {
+  background: var(--pcb-deep);
+  border-top: 1px solid var(--edge);
+  padding: 52px 24px 64px;
+}
+.foot-grid {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 48px;
+}
+.foot-h {
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--solder-text);
+  margin: 0 0 12px;
+}
+.foot-note { font-size: 14px; color: var(--solder-text); margin: 14px 0 0; max-width: 46ch; }
+.foot-links { list-style: none; margin: 0; padding: 0; }
+.foot-links li { margin-bottom: 7px; font-size: 15px; }
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 900px) {
+  .bar { padding: 0 16px; }
+  .bar-nav a:not(.bar-cta) { display: none; }
+  section { padding: 60px 18px; }
+  .band { padding-left: 18px; padding-right: 18px; }
+  .br-wide { display: none; }   /* let the headline wrap naturally */
+  .hero { padding-top: 64px; }
+  .split, .tier, .tutor-grid, .foot-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .tier.reverse .tier-text { order: 0; }
+  .hero-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .foot { padding: 40px 18px 52px; }
+}
+@media (max-width: 460px) {
+  body { font-size: 16px; }
+  .hero-facts { grid-template-columns: minmax(0, 1fr); }
+}

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CircuitCoach: a browser breadboard that behaves like hardware</title>
+<meta name="description" content="A browser breadboard simulator that reports faults as real instrument readings, with an AI tutor that reasons about the specific mistake you made. Built for the 2026 IEEE Metaverse Grand Challenge.">
+<link rel="canonical" href="https://circuitcoach.vercel.app/">
+<meta property="og:title" content="CircuitCoach">
+<meta property="og:description" content="A browser breadboard that behaves like hardware. Seventeen named faults, reported as measurements rather than advice.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/circuitcoach/assets/demo-poster.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/circuitcoach/styles/site.css">
+<link rel="icon" href="/circuitcoach/assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<div style="background:#111;color:#ccc;font:13px/1.4 -apple-system,sans-serif;padding:8px 16px;text-align:center;">
+  Mirror copy inside the NEVO-HACKATHON hub. Canonical site: <a style="color:#9f9" href="https://circuitcoach.vercel.app/">circuitcoach.vercel.app</a>. The AI tutor needs a serverless backend and is not available in this mirror; the breadboard simulator itself works fully.
+</div>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="bar">
+  <a class="mark" href="#top" aria-label="CircuitCoach home">
+    <svg class="led" viewBox="0 0 34 22" aria-hidden="true">
+      <path d="M2 3 L2 19 L13 11 Z" fill="#C08552"/>
+      <rect x="13" y="3" width="2.4" height="16" fill="#C08552"/>
+      <path d="M19 12 L25 6 M23.5 14 L29.5 8" stroke="#C08552" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="wordmark">CIRCUIT<em>COACH</em></span>
+  </a>
+  <nav class="bar-nav">
+    <a href="#tiers">Tiers</a>
+    <a href="#tutor">AI tutor</a>
+    <a href="#engineering">Engineering</a>
+    <a href="/circuitcoach/app/" class="bar-cta">Open the simulator</a>
+  </nav>
+</header>
+
+<main id="main">
+
+<section class="hero" id="top">
+  <p class="eyebrow">2026 IEEE Metaverse Grand Challenge for Simulation-Based Learning</p>
+  <h1>A browser breadboard that<br class="br-wide">behaves like hardware.</h1>
+  <p class="lede">
+    Most circuit simulators check your wiring against an answer key and tell you
+    that you are wrong. CircuitCoach reports what a real instrument would have
+    shown you, then puts an AI tutor on the specific mistake you actually made.
+  </p>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="/circuitcoach/app/">Open the simulator</a>
+    <a class="btn" href="#demo">Watch the 7 minute demo</a>
+  </div>
+  <ul class="hero-facts">
+    <li><b>17</b> named faults</li>
+    <li><b>198</b> tests passing</li>
+    <li><b>3</b> tiers, 9 challenges</li>
+    <li><b>$0</b> to run</li>
+  </ul>
+</section>
+
+<section class="split" aria-label="The problem and the approach">
+  <div class="col">
+    <h2 class="kicker">The problem</h2>
+    <p>
+      A real breadboard, a component kit and a bench multimeter cost real money.
+      The students who would benefit most from a bench are usually the ones who
+      never get one.
+    </p>
+    <p>
+      And a simulator that only says <em>incorrect</em> teaches the wrong lesson.
+      On real hardware nothing announces your mistake. You get a reading, and you
+      have to work out what the reading means.
+    </p>
+  </div>
+  <div class="col">
+    <h2 class="kicker">What CircuitCoach does</h2>
+    <p>
+      It runs in a browser with no install and no hardware cost. Holes are wired
+      like real copper, so five holes in a column are one node and the top rails
+      are not the bottom rails.
+    </p>
+    <p>
+      Every fault is a measurement. Reverse an LED and you get
+      <code>V_LED = −5.00 V</code>, zero current, junction blocking. Never
+      <em>try flipping the LED</em>.
+    </p>
+  </div>
+</section>
+
+<section class="band" id="demo">
+  <h2>See it run</h2>
+  <p class="sub">
+    Seven minutes, narrated, recorded against the live application. The AI
+    hints in this take are real generated output, not staged text.
+  </p>
+  <div class="video-wrap video-embed">
+    <iframe src="https://drive.google.com/file/d/1WT-SwZnsOa9xi0q7tVR66DdekDq84F2D/preview"
+            title="CircuitCoach demo, seven minute narrated walkthrough"
+            allow="fullscreen" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <p class="caption">
+    Streamed from Drive, so nothing heavy ships with the page. If the frame is
+    blocked,
+    <a href="https://drive.google.com/file/d/1WT-SwZnsOa9xi0q7tVR66DdekDq84F2D/view">open
+    it directly</a>. The
+    <a href="/circuitcoach/assets/demo-transcript.md">voiceover transcript</a> is published
+    with timecodes.
+  </p>
+</section>
+
+<section id="tiers">
+  <h2>Three tiers, one board, real fault detection</h2>
+  <p class="sub">
+    Difficulty moves from wiring, to arithmetic, to reasoning about logic. The
+    board never changes.
+  </p>
+
+  <article class="tier">
+    <div class="tier-text">
+      <p class="tier-n">Tier 1</p>
+      <h3>Wiring and polarity</h3>
+      <p>
+        Build a closed loop, and get the polarity right. The LED body sits off
+        centre so the anode reads as the long leg, the same cue you use on a real
+        part. Twelve distinct faults are reachable here, from a hard rail short
+        to a parallel path that quietly bypasses the emitter.
+      </p>
+      <p class="readout">reversed_polarity · V_LED = −5.00 V · I = 0.00 mA</p>
+    </div>
+    <figure>
+      <picture>
+        <source srcset="/assets/tier1-fault.webp" type="image/webp">
+        <img src="/circuitcoach/assets/tier1-fault.png" width="1600" height="1150" loading="lazy"
+             alt="The simulator showing a reverse biased LED, with the instrument panel reading minus five volts across the LED and zero current.">
+      </picture>
+    </figure>
+  </article>
+
+  <article class="tier reverse">
+    <div class="tier-text">
+      <p class="tier-n">Tier 2</p>
+      <h3>Sizing the resistor</h3>
+      <p>
+        Same circuit, but the resistor value is the answer. You pick from real
+        E12 stock, 100 to 470 ohms, rather than typing a number. Undersize it and
+        the LED runs white hot, then dies past twice its rating. Oversize it and
+        it lights visibly dim. Both directions fall out of Ohm's law.
+      </p>
+      <p class="readout">target band 65 to 100% of rated drive</p>
+    </div>
+    <figure>
+      <picture>
+        <source srcset="/assets/tier2-band.webp" type="image/webp">
+        <img src="/circuitcoach/assets/tier2-band.png" width="1600" height="1150" loading="lazy"
+             alt="The simulator on tier two, showing the E12 resistor stock strip and a lit LED inside the target current band.">
+      </picture>
+    </figure>
+  </article>
+
+  <article class="tier">
+    <div class="tier-text">
+      <p class="tier-n">Tier 3</p>
+      <h3>Digital input and pull resistors</h3>
+      <p>
+        A logic block with an input pin and a fixed sketch: output follows input.
+        A button with no pull resistor leaves the pin floating, and that is its
+        own fault with its own reading. Because the sketch never changes, the
+        opposite condition needs the opposite wiring, so it has to be reasoned
+        through rather than copied.
+      </p>
+      <p class="readout">input_floating · R to SRC+ = open · R to SRC− = open</p>
+    </div>
+    <figure>
+      <picture>
+        <source srcset="/assets/tier3-floating.webp" type="image/webp">
+        <img src="/circuitcoach/assets/tier3-floating.png" width="1600" height="1150" loading="lazy"
+             alt="The simulator on tier three, reporting an indeterminate input because the pin reaches neither power rail.">
+      </picture>
+    </figure>
+  </article>
+</section>
+
+<section class="band" id="tutor">
+  <h2>An AI tutor that reasons about your specific mistake</h2>
+  <p class="sub">
+    The escalation decision is deterministic and runs in the browser. The model
+    is used only to word the hint, so the teaching logic cannot misbehave.
+  </p>
+
+  <div class="tutor-grid">
+    <ol class="ladder">
+      <li>
+        <p class="step">Attempt 1</p>
+        <h3>Silent</h3>
+        <p>Visual feedback only. The board shakes, the LED stays dark, no hint.</p>
+      </li>
+      <li>
+        <p class="step">Attempt 2</p>
+        <h3>Socratic</h3>
+        <p>A question that points at the concept without handing over the fix.</p>
+      </li>
+      <li>
+        <p class="step">Attempt 3</p>
+        <h3>Direct</h3>
+        <p>Names the specific component, terminal or value involved.</p>
+      </li>
+      <li>
+        <p class="step">Attempt 4</p>
+        <h3>Resolved</h3>
+        <p>States the fix, then explains in one sentence why it works.</p>
+      </li>
+    </ol>
+    <figure class="tutor-shot">
+      <picture>
+        <source srcset="/assets/tutor-hint.webp" type="image/webp">
+        <img src="/circuitcoach/assets/tutor-hint.png" width="700" height="1892" loading="lazy"
+             alt="The AI tutor log showing attempt one with no hint, then attempt two with a generated Socratic question about LED polarity.">
+      </picture>
+      <figcaption>
+        A real hint, generated live against the reading on this board. Make a
+        different mistake instead and the ladder resets, so you are never handed
+        the answer to a problem you only just met.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="engineering">
+  <h2>Built and verified, not just demoed</h2>
+  <p class="sub">The things worth weighing in an evaluation.</p>
+
+  <div class="cards">
+    <div class="card">
+      <h3>A real netlist solver</h3>
+      <p>
+        Holes are unioned into nets, then every simple path from supply to return
+        is enumerated and classified. Forward biased, reverse biased, or bypassing
+        the emitter entirely. No string matching against an expected answer.
+      </p>
+    </div>
+    <div class="card">
+      <h3>198 tests passing</h3>
+      <p>
+        86 assertions on the solver in plain Node, and 112 driving the real
+        interface with real DOM events in headless Chrome. The tutor suite runs
+        against a stub so it never spends API quota.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Accessible and cheap</h3>
+      <p>
+        The whole circuit can be built from the keyboard. Arrow keys walk the hole
+        grid, letters arm parts, space cycles power. It opens from a file with no
+        server and no build step.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Hardened backend</h3>
+      <p>
+        The API key stays server side and never reaches the browser. Static
+        serving is restricted to the front end, request bodies are capped, and
+        every field is validated before anything reaches the model.
+      </p>
+    </div>
+  </div>
+
+  <h3 class="faults-title">The fault vocabulary</h3>
+  <p class="sub">
+    Seventeen named codes, each with its own instrument reading. This is also the
+    input vocabulary the tutor reasons over.
+  </p>
+  <ul class="faults">
+    <li>no_led</li><li>no_resistor</li><li>no_button</li><li>supply_open</li>
+    <li>open_circuit</li><li>short_circuit</li><li>led_shorted</li>
+    <li>resistor_shorted</li><li>led_bypassed</li><li>led_not_in_path</li>
+    <li>reversed_polarity</li><li>no_current_limit</li><li>under_driven</li>
+    <li>led_not_straddling</li><li>input_floating</li><li>input_stuck</li>
+    <li>logic_inverted</li>
+  </ul>
+</section>
+
+<section class="closer">
+  <h2>Try it in your browser</h2>
+  <p class="sub">
+    No account, no install. Build the loop, get the polarity wrong on purpose,
+    and read what the bench tells you.
+  </p>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="/circuitcoach/app/">Open the simulator</a>
+    <a class="btn" href="https://github.com/nevodesigns/circuitcoach">Source and test suite</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-grid">
+    <div>
+      <a class="mark small" href="#top" aria-label="CircuitCoach">
+        <svg class="led" viewBox="0 0 34 22" aria-hidden="true">
+          <path d="M2 3 L2 19 L13 11 Z" fill="#C08552"/>
+          <rect x="13" y="3" width="2.4" height="16" fill="#C08552"/>
+          <path d="M19 12 L25 6 M23.5 14 L29.5 8" stroke="#C08552" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span class="wordmark">CIRCUIT<em>COACH</em></span>
+      </a>
+      <p class="foot-note">
+        An AI-adaptive embedded systems learning simulator. The same engine
+        extends across an eleven phase embedded curriculum.
+      </p>
+    </div>
+    <div>
+      <p class="foot-h">Competition</p>
+      <p class="foot-note">
+        Submitted to the 2026 IEEE Metaverse Grand Challenge for
+        Simulation-Based Learning, under Advanced Learning in Educational or
+        Classroom Environment. Sponsored by IEEE Metaverse, IEEE Future
+        Directions, IEEE Young Professionals and IEEE Smart Cities.
+      </p>
+      <p class="foot-note">
+        <a href="https://metaversereality.ieee.org/competition/">Official competition page</a>
+      </p>
+    </div>
+    <div>
+      <p class="foot-h">Project</p>
+      <ul class="foot-links">
+        <li><a href="/circuitcoach/app/">Live simulator</a></li>
+        <li><a href="https://github.com/nevodesigns/circuitcoach">Source on GitHub</a></li>
+        <li><a href="https://drive.google.com/file/d/1WT-SwZnsOa9xi0q7tVR66DdekDq84F2D/view">Demo video</a></li>
+        <li><a href="/circuitcoach/assets/demo-transcript.md">Demo transcript</a></li>
+      </ul>
+      <p class="foot-note">Nwokolo Victor Oluebubechukwu</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/circuitcoach/scripts/nav.js" defer></script>
+
+</body>
+</html>

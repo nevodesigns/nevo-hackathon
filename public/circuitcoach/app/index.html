@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="/app/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CircuitCoach: Tier 1</title>
+<meta name="description" content="Browser breadboard simulator for embedded systems learners. Tier 1: polarity and circuit completeness.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 20 20" aria-hidden="true">
+      <rect x="1.5" y="1.5" width="17" height="17" rx="2"/>
+      <circle cx="10" cy="10" r="3"/>
+      <path d="M10 1.5v3M10 15.5v3M1.5 10h3M15.5 10h3"/>
+    </svg>
+    <span class="brand-name">CIRCUIT<em>COACH</em></span>
+  </div>
+
+  <nav class="tier-rail" id="tier-rail" aria-label="Tier progress"></nav>
+
+  <button id="btn-restart" class="btn btn-ghost" type="button">RESTART CHALLENGE</button>
+</header>
+
+<main class="workspace">
+
+  <aside class="panel panel-left" aria-label="Challenge and parts">
+    <section class="block">
+      <div class="block-head">
+        <h2 class="block-title">Challenge</h2>
+        <span id="ch-id" class="chip">T1-A</span>
+      </div>
+      <h3 id="ch-title" class="ch-title">Light it up</h3>
+      <div id="ch-dots" class="dots" role="group" aria-label="Challenge variants"></div>
+      <p id="ch-brief" class="ch-brief"></p>
+      <ul id="objectives" class="objectives"></ul>
+    </section>
+
+    <section class="block">
+      <h2 class="block-title">Device spec</h2>
+      <div class="spec" id="spec">
+        <div class="sp"><span>V_SUPPLY</span><b id="sp-vcc">5.00 V</b></div>
+        <div class="sp"><span>V_F</span><b id="sp-vf">2.00 V</b></div>
+        <div class="sp" id="sp-imax-row"><span>I_RATED</span><b id="sp-imax">20 mA</b></div>
+        <div class="sp" id="sp-band-row"><span>TARGET BAND</span><b id="sp-band">—</b></div>
+        <div class="sp span2" id="sp-cond-row"><span>CONDITION</span><b id="sp-cond">—</b></div>
+      </div>
+    </section>
+
+
+    <section class="block" id="stock-block" hidden>
+      <h2 class="block-title">Resistor stock · E12 · Ω</h2>
+      <div class="rvals" id="rvals" role="group" aria-label="Resistor value from stock"></div>
+    </section>
+
+    <section class="block">
+      <h2 class="block-title">Parts bin</h2>
+      <div class="parts">
+        <button id="tool-led" class="part" type="button" aria-pressed="false">
+          <svg class="part-ico" viewBox="0 0 40 24" aria-hidden="true">
+            <line class="pi-leg" x1="2" y1="12" x2="38" y2="12"/>
+            <path class="pi-led" d="M17 5.2 A8 8 0 1 1 17 18.8 Z"/>
+            <line class="pi-bar" x1="15" y1="4.5" x2="15" y2="19.5"/>
+          </svg>
+          <span class="part-name">LED<em id="part-led-sub">red · Vf 2.00 V</em></span>
+          <span class="part-count">1</span>
+          <span class="part-key">L</span>
+        </button>
+        <button id="tool-resistor" class="part" type="button" aria-pressed="false">
+          <svg class="part-ico" viewBox="0 0 40 24" aria-hidden="true">
+            <line class="pi-leg" x1="2" y1="12" x2="38" y2="12"/>
+            <rect class="pi-body" x="11" y="6" width="18" height="12" rx="4"/>
+            <rect x="14" y="6" width="2.4" height="12" fill="#B8493F"/>
+            <rect x="18" y="6" width="2.4" height="12" fill="#B8493F"/>
+            <rect x="22" y="6" width="2.4" height="12" fill="#5C4033"/>
+            <rect x="26" y="6" width="2.4" height="12" fill="#C08552"/>
+          </svg>
+          <span class="part-name">RESISTOR<em id="part-res-sub">220 Ω · ±5%</em></span>
+          <span class="part-count">1</span>
+          <span class="part-key">R</span>
+        </button>
+        <button id="tool-button" class="part" type="button" aria-pressed="false" hidden>
+          <svg class="part-ico" viewBox="0 0 40 24" aria-hidden="true">
+            <line class="pi-leg" x1="2" y1="12" x2="38" y2="12"/>
+            <rect class="pi-body" x="11" y="4" width="18" height="16" rx="2.5"/>
+            <circle class="pi-cap" cx="20" cy="12" r="5"/>
+          </svg>
+          <span class="part-name">BUTTON<em>momentary · N/O</em></span>
+          <span class="part-count">1</span>
+          <span class="part-key">B</span>
+        </button>
+        <button id="tool-wire" class="part" type="button" aria-pressed="false">
+          <svg class="part-ico" viewBox="0 0 40 24" aria-hidden="true">
+            <path class="pi-wire" d="M4 17 Q20 -1 36 17"/>
+            <circle class="pi-boot" cx="4" cy="17" r="2.6"/>
+            <circle class="pi-boot" cx="36" cy="17" r="2.6"/>
+          </svg>
+          <span class="part-name">JUMPER<em>solid core</em></span>
+          <span class="part-count">8</span>
+          <span class="part-key">W</span>
+        </button>
+      </div>
+
+      <div class="tool-row">
+        <button id="tool-remove" class="btn btn-ghost small" type="button" aria-pressed="false">REMOVE <em>X</em></button>
+        <button id="btn-undo" class="btn btn-ghost small" type="button">UNDO <em>^Z</em></button>
+        <button id="btn-clear" class="btn btn-ghost small" type="button">CLEAR</button>
+      </div>
+    </section>
+
+    <section class="block block-power">
+      <div id="logic-block" hidden>
+        <button id="btn-hold" class="btn btn-hold" type="button" aria-pressed="false">
+          <span class="btn-label">PRESS BUTTON</span>
+          <span class="btn-key">H</span>
+        </button>
+        <p class="hold-note">Both button states are graded.</p>
+      </div>
+      <button id="btn-power" class="btn btn-power" type="button">
+        <span class="btn-label">POWER ON</span>
+        <span class="btn-key">SPACE</span>
+      </button>
+      <button id="btn-next" class="btn btn-next" type="button" hidden>NEXT CHALLENGE &rsaquo;</button>
+    </section>
+  </aside>
+
+  <section class="stage" aria-label="Breadboard">
+    <div id="verdict" class="verdict" role="status" aria-live="polite"></div>
+    <div id="board-wrap" class="board-wrap">
+      <svg id="board" role="application" aria-label="Breadboard canvas. Use arrow keys to move between holes and Enter to select."></svg>
+    </div>
+    <div class="probe">
+      <span class="probe-label">PROBE</span>
+      <span id="probe-node" class="probe-node">—</span>
+      <span id="probe-status" class="probe-status"></span>
+    </div>
+  </section>
+
+  <aside class="panel panel-right" aria-label="Tutor log and instrumentation">
+    <div class="term">
+      <div class="term-head">
+        <span class="term-title">AI TUTOR LOG</span>
+        <span class="term-state"><i class="dotlamp"></i><span id="term-state-text">OFFLINE · DIAGNOSTIC</span></span>
+      </div>
+
+      <div class="grid-readout" aria-label="Session trace">
+        <div class="ro"><span>ATTEMPTS</span><b id="tr-attempts">00</b></div>
+        <div class="ro"><span>FAULTS</span><b id="tr-faults">00</b></div>
+        <div class="ro"><span>HINTS</span><b id="tr-hints">00</b></div>
+        <div class="ro wide"><span>LAST FAULT</span><b id="tr-last">—</b></div>
+        <div class="ro"><span>ON TASK</span><b id="tr-time">00:00</b></div>
+      </div>
+
+      <div class="grid-readout meas" aria-label="Serial readout">
+        <div class="ro"><span>V_RAIL</span><b id="ro-vrail">0.00 V</b></div>
+        <div class="ro"><span>I</span><b id="ro-i">0.00 mA</b></div>
+        <div class="ro"><span>V_LED</span><b id="ro-vled">0.00 V</b></div>
+        <div class="ro"><span>V_R</span><b id="ro-vr">0.00 V</b></div>
+        <div class="ro"><span>R</span><b id="ro-r">0 Ω</b></div>
+        <div class="ro"><span>P_LED</span><b id="ro-p">0.0 mW</b></div>
+      </div>
+
+      <div class="grid-readout meas" id="logic-row" aria-label="Logic readout" hidden>
+        <div class="ro"><span>IN</span><b id="ro-in">—</b></div>
+        <div class="ro"><span>OUT</span><b id="ro-out">—</b></div>
+        <div class="ro"><span>BUTTON</span><b id="ro-btn">RELEASED</b></div>
+      </div>
+
+      <div id="log" class="log" role="log" aria-live="polite" aria-label="Serial monitor"></div>
+
+      <div class="term-foot">
+        All three tiers run on deterministic rules. The adaptive hint engine attaches
+        to this same trace.
+      </div>
+    </div>
+  </aside>
+
+</main>
+
+<script src="js/board.js"></script>
+<script src="js/circuit.js"></script>
+<script src="js/challenges.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

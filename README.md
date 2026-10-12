@@ -1,10 +1,10 @@
 # NEVO-HACKATHON
 
-A single hub that brings Golazo, LogSight, SIWES LogChain and AGBE together as
-one static deploy. Each project is a real, working copy served from its own
-subpath, not just a link out to somewhere else, so the hub keeps working even
-if the original standalone deployments are taken down (AGBE is the one
-exception, see below).
+A single hub that brings Golazo, LogSight, SIWES LogChain, AGBE and
+CircuitCoach together as one static deploy. Each project is a real, working
+copy served from its own subpath, not just a link out to somewhere else, so
+the hub keeps working even if the original standalone deployments are taken
+down (AGBE and CircuitCoach are the exceptions, see below).
 
 ## Projects
 
@@ -16,7 +16,9 @@ exception, see below).
 - **LogSight** (`/logsight/`): offline SIWES logbook assistant on a local
   Gemma 4 model. This is the landing/demo page; the real tool runs locally on
   a student's own machine via Ollama, by design (it has to work with no
-  internet), so it was never a hosted web app to begin with.
+  internet), so it was never a hosted web app to begin with. Split into
+  `index.html`, `css/style.css`, `js/script.js` and `assets/favicon.png`
+  (the original copy was a single self-contained HTML file).
 - **SIWES LogChain** (`/siwes/`): a real, fully functional copy of the onchain
   SIWES logbook app. It talks directly to the deployed `SIWESLog` contract on
   Monad Testnet from the browser (via `ethers.js`), so it keeps working
@@ -30,6 +32,13 @@ exception, see below).
   competition-submitted deployment at https://agbe-site.pxxlspace.cv/ must
   stay untouched, since that exact URL was already submitted to ADTC
   organisers. Do not delete or modify that one.
+- **CircuitCoach** (`/circuitcoach/`): a browser breadboard simulator built
+  for the 2026 IEEE Metaverse Grand Challenge. Also a static **mirror**; the
+  canonical deployment at https://circuitcoach.vercel.app/ stays untouched.
+  The simulator itself (`/circuitcoach/app/`) works fully in this mirror; the
+  optional AI tutor needs a serverless Gemini-backed endpoint
+  (`circuitcoach-site`'s `api/` folder) that is not deployed here, so it
+  degrades to its documented offline state rather than failing.
 
 ## Structure
 
@@ -38,9 +47,11 @@ public/
   index.html     Hub landing page
   assets/        Icons/logos used on the hub cards
   golazo/        Static copy of golazo-site's public/ folder
-  logsight/       Static copy of logsight's landing page
+  logsight/      Static copy of logsight's landing page, split into html/css/js
   siwes/         Built copy of siwes-logchain's frontend, base path /siwes/
   agbe/          Static mirror of the AGBE site (absolute paths rewritten to /agbe/*)
+  circuitcoach/  Static mirror of circuitcoach-site (landing page + app/ simulator,
+                 absolute paths rewritten to /circuitcoach/*; no api/ backend)
 ```
 
 ## Running locally
