@@ -1,10 +1,11 @@
 # NEVO-HACKATHON
 
-A single hub that brings Golazo, LogSight, SIWES LogChain, AGBE and
-CircuitCoach together as one static deploy. Each project is a real, working
-copy served from its own subpath, not just a link out to somewhere else, so
-the hub keeps working even if the original standalone deployments are taken
-down (AGBE and CircuitCoach are the exceptions, see below).
+A single hub that brings Golazo, LogSight, SIWES LogChain, AGBE,
+CircuitCoach and natlas-kit together as one static deploy. Each project is a
+real, working copy served from its own subpath, not just a link out to
+somewhere else, so the hub keeps working even if the original standalone
+deployments are taken down (AGBE, CircuitCoach and natlas-kit are kept as
+deliberate mirrors instead, see below).
 
 ## Projects
 
@@ -34,11 +35,17 @@ down (AGBE and CircuitCoach are the exceptions, see below).
   organisers. Do not delete or modify that one.
 - **CircuitCoach** (`/circuitcoach/`): a browser breadboard simulator built
   for the 2026 IEEE Metaverse Grand Challenge. Also a static **mirror**; the
-  canonical deployment at https://circuitcoach.vercel.app/ stays untouched.
-  The simulator itself (`/circuitcoach/app/`) works fully in this mirror; the
-  optional AI tutor needs a serverless Gemini-backed endpoint
-  (`circuitcoach-site`'s `api/` folder) that is not deployed here, so it
-  degrades to its documented offline state rather than failing.
+  canonical deployment is untouched and, per request, is not linked from the
+  hub card or the mirror page itself (unlike AGBE and natlas-kit, which both
+  link back to their canonical sites). The simulator itself
+  (`/circuitcoach/app/`) works fully in this mirror; the optional AI tutor
+  needs a serverless Gemini-backed endpoint (`circuitcoach-site`'s `api/`
+  folder) that is not deployed here, so it degrades to its documented
+  offline state rather than failing.
+- **natlas-kit** (`/natlas/`): developer toolkit for NCAIR's N-ATLaS models,
+  built for NAIC 2026. Also a static **mirror** of the GitHub Pages site; the
+  canonical, NAIC-submitted deployment at
+  https://nevodesigns.github.io/natlas-kit/ stays untouched.
 
 ## Structure
 
@@ -52,6 +59,7 @@ public/
   agbe/          Static mirror of the AGBE site (absolute paths rewritten to /agbe/*)
   circuitcoach/  Static mirror of circuitcoach-site (landing page + app/ simulator,
                  absolute paths rewritten to /circuitcoach/*; no api/ backend)
+  natlas/        Static mirror of natlas-kit's GitHub Pages site (web/ folder)
 ```
 
 ## Running locally
