@@ -87,9 +87,42 @@ cd siwes-logchain/frontend
 #   start_url/scope/icon paths with /siwes/
 # patch src/main.jsx: <BrowserRouter basename="/siwes">
 # patch index.html: service worker register path/scope -> /siwes/sw.v2.js, /siwes/
+# move the inline sw-registration script into register-sw.js, referenced via
+#   <script src="/siwes/register-sw.js"> (CSP has no script-src exceptions)
 npm run build
 cp -r dist/* ../../nevo-hackathon/public/siwes/
 ```
 
 None of these patches touch the original repo, only a scratch copy used to
 produce the build.
+
+## Security
+
+A review pass checked for: hardcoded secrets (including git history), XSS
+vectors (no `dangerouslySetInnerHTML`/`innerHTML` with untrusted data, the
+SIWES `?address=` param is validated with `ethers.isAddress` before use),
+reverse-tabnabbing (every `target="_blank"` link carries `rel="noopener"`),
+inline `<script>`/event-handler injection points, and `eval`/`new Function`
+usage in bundled dependencies. Nothing exploitable was found; two first-party
+inline scripts (LogSight's FOUC class toggle, SIWES's service-worker
+registration) were moved to external files so the site needs no `script-src`
+exceptions at all.
+
+`serve.json` now sends, on every route:
+
+- `Content-Security-Policy`: `script-src 'self'` with no inline/eval
+  exceptions; `style-src` allows `'unsafe-inline'` plus Google Fonts (several
+  mirrored pages use inline `style="..."` attributes); `connect-src` is
+  scoped to `'self'` and the Monad testnet RPC (`testnet-rpc.monad.xyz`) that
+  SIWES LogChain calls directly from the browser; `frame-src` is scoped to
+  the two embedded demo videos (`youtube-nocookie.com`, `drive.google.com`);
+  `object-src 'none'`, `frame-ancestors 'none'`, `form-action 'self'`.
+- `Permissions-Policy`: denies camera, microphone, geolocation, USB and
+  payment APIs, none of which any project here needs.
+- The existing `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`
+  and `Referrer-Policy`.
+
+Verified with a real headless-Chrome run (Playwright) against every route,
+including the SIWES SPA's client-side routes and a live on-chain record
+lookup via the seeded demo address: zero CSP violations, zero console
+errors, zero failed requests.
