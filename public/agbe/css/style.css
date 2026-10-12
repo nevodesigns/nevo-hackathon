@@ -1,0 +1,307 @@
+/* AGBE — extension-bulletin styling.
+   Deliberately avoids the left-border accent bar on quotes and code blocks.
+   Emphasis here comes from rules, boxes and legends, the way a printed
+   bulletin does it, not from a coloured stripe down the side. */
+
+:root{
+  --paper:#F7F2E7; --paper-2:#F1EADA;
+  --ink:#22271F; --ink-soft:#5A6154;
+  --green:#2E4633; --ochre:#A9662A;
+  --rule:#D6CDB6; --rule-strong:#B9AE93;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#151814; --paper-2:#1B1F1A; --ink:#E9E4D5; --ink-soft:#9AA292;
+    --green:#93BA9C; --ochre:#D8A05C; --rule:#2F362C; --rule-strong:#454E41;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#151814; --paper-2:#1B1F1A; --ink:#E9E4D5; --ink-soft:#9AA292;
+  --green:#93BA9C; --ochre:#D8A05C; --rule:#2F362C; --rule-strong:#454E41;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-size:19px; line-height:1.62;
+}
+img{max-width:100%;display:block}
+.wrap{max-width:74ch;margin:0 auto;padding:0 1.5rem}
+
+/* ---------- theme toggle ---------- */
+.theme-toggle{
+  position:fixed; top:1rem; right:1rem; z-index:20;
+  font-family:var(--sans); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase;
+  background:var(--paper); color:var(--ink-soft);
+  border:1px solid var(--rule-strong); border-radius:0;
+  padding:.5rem .7rem; cursor:pointer; line-height:1;
+}
+.theme-toggle:hover{color:var(--ink);border-color:var(--ink)}
+.theme-toggle:focus-visible{outline:2px solid var(--ochre);outline-offset:2px}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative; min-height:min(78vh,660px);
+  display:flex; align-items:flex-end; background:#11150F; overflow:hidden;
+}
+.hero img.bg{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; opacity:.62; filter:saturate(.82) contrast(1.03);
+}
+.hero::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(10,14,9,.62) 0%, rgba(10,14,9,.30) 38%, rgba(10,14,9,.88) 100%);
+}
+.hero-inner{position:relative;z-index:2;width:100%;max-width:74ch;margin:0 auto;padding:0 1.5rem 2.6rem}
+.hero .mark{width:62px;height:62px;color:#E4C77A;margin-bottom:.9rem}
+h1{
+  font-size:clamp(3.4rem,13vw,6rem); line-height:.84; margin:0;
+  letter-spacing:.02em; font-weight:600; color:#F6F1E3;
+}
+.tagline{
+  font-family:var(--sans); font-size:.74rem; letter-spacing:.24em;
+  text-transform:uppercase; color:#D8CDA9; margin:.85rem 0 0;
+}
+.hero-meta{
+  display:flex;flex-wrap:wrap;gap:.4rem 1.5rem;margin:1.5rem 0 0;padding-top:.9rem;
+  border-top:1px solid rgba(232,222,190,.32);
+  font-family:var(--sans);font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;
+  color:#CFC4A2;
+}
+
+/* ---------- type ---------- */
+.lede{font-size:1.3rem;line-height:1.5;margin:2.8rem 0 0}
+.lede b{font-weight:600}
+p{margin:1.15rem 0}
+h2{
+  font-family:var(--sans);font-size:.73rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ochre);margin:3.4rem 0 .2rem;font-weight:600;
+}
+h2 + .h2sub{font-size:1.62rem;line-height:1.2;margin:.1rem 0 1.1rem;font-weight:600}
+.drop::first-letter{
+  float:left;font-size:3.4rem;line-height:.82;padding:.14em .1em 0 0;
+  color:var(--green);font-weight:600;
+}
+a{color:var(--green);text-decoration-thickness:1px;text-underline-offset:2px}
+code{font-family:var(--mono);font-size:.86em}
+
+/* ---------- pull quote: rules above and below, no side bar ---------- */
+.pull{
+  margin:2.8rem 0; padding:1.5rem 1.2rem;
+  border-top:1px solid var(--ink); border-bottom:1px solid var(--ink);
+  text-align:center; font-size:1.24rem; line-height:1.45; text-wrap:balance;
+}
+
+/* ---------- plates ---------- */
+figure.plate{margin:2.6rem 0;border-top:1px solid var(--ink);padding-top:.85rem}
+figure.plate img{width:100%;height:auto;filter:saturate(.88)}
+figure.plate figcaption{
+  font-family:var(--sans);font-size:.72rem;line-height:1.55;color:var(--ink-soft);
+  padding-top:.6rem;border-bottom:1px solid var(--rule);padding-bottom:.85rem;
+}
+figure.plate .pn{
+  display:inline-block;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ochre);margin-right:.5rem;
+}
+
+/* ---------- table ---------- */
+.tablewrap{
+  overflow-x:auto;margin:1.5rem 0 .6rem;
+  border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+}
+table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:.8rem}
+caption{
+  caption-side:bottom;text-align:left;font-family:var(--sans);font-size:.72rem;
+  color:var(--ink-soft);padding-top:.7rem;line-height:1.5;
+}
+th,td{padding:.5rem .7rem;text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{
+  border-bottom:1px solid var(--rule-strong);font-weight:600;font-family:var(--sans);
+  font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+}
+tbody tr + tr td{border-top:1px solid var(--rule)}
+tr.pick td{background:var(--paper-2);font-weight:700;color:var(--green)}
+tr.fail td{color:var(--ink-soft)}
+
+/* ---------- spec strip ---------- */
+.spec{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:0;
+  border:1px solid var(--rule-strong);margin:1.8rem 0;
+}
+.spec div{padding:.9rem 1rem;border-right:1px solid var(--rule)}
+.spec div:last-child{border-right:0}
+.spec dt{
+  font-family:var(--sans);font-size:.61rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);margin:0 0 .2rem;
+}
+.spec dd{margin:0;font-family:var(--mono);font-size:1.02rem;color:var(--green);font-weight:600}
+
+/* ---------- formula: boxed with a legend, like a printed figure ---------- */
+.figbox{
+  position:relative; border:1px solid var(--rule-strong); background:var(--paper-2);
+  margin:2.2rem 0 1.4rem; padding:1.5rem 1.1rem 1.1rem;
+}
+.figbox > .legend{
+  position:absolute; top:0; left:1rem; transform:translateY(-50%);
+  background:var(--paper); padding:0 .55rem;
+  font-family:var(--sans); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.formula{
+  font-family:var(--mono);font-size:.85rem;line-height:1.9;margin:0;overflow-x:auto;
+}
+.formula .hi{color:var(--ochre);font-weight:700}
+
+/* ---------- steps ---------- */
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:1.2rem 0}
+ol.steps li{counter-increment:s;position:relative;padding-left:2.6rem;margin:.95rem 0}
+ol.steps li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:.15em;
+  font-family:var(--mono);font-size:.78rem;color:var(--ochre);font-weight:700;
+}
+
+/* ---------- footer ---------- */
+footer{
+  margin-top:4.5rem;border-top:3px double var(--rule-strong);padding:1.2rem 0 5rem;
+  font-family:var(--sans);font-size:.73rem;color:var(--ink-soft);line-height:1.7;
+}
+footer a{color:var(--ink-soft)}
+.sig{font-family:var(--serif);font-size:.95rem;color:var(--ink)}
+.credits{font-size:.68rem;margin-top:1.1rem;padding-top:.8rem;border-top:1px solid var(--rule)}
+
+@media (max-width:520px){
+  body{font-size:18px}
+  .theme-toggle{top:auto;bottom:1rem;right:1rem}
+}
+
+/* ---------- landing-page components ---------- */
+
+/* Fact bar: the five numbers a visitor needs before reading anything else. */
+.factbar{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(7.5rem,1fr));
+  border:1px solid var(--rule-strong); margin:2.2rem 0 1rem;
+}
+.factbar div{padding:.85rem 1rem;border-right:1px solid var(--rule)}
+.factbar div:last-child{border-right:0}
+.factbar dt{
+  font-family:var(--sans);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);margin:0 0 .25rem;
+}
+.factbar dd{margin:0;font-family:var(--mono);font-size:1rem;color:var(--green);font-weight:600}
+
+/* Copyable terminal block, shares the figbox frame with the formula. */
+pre.code{
+  font-family:var(--mono);font-size:.82rem;line-height:1.75;margin:0;
+  overflow-x:auto;white-space:pre;color:var(--ink);
+}
+.micro{font-family:var(--sans);font-size:.78rem;color:var(--ink-soft);margin-top:.7rem}
+
+/* Two-column will/will-not. Collapses to one column on narrow screens. */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 2.2rem;margin:1.4rem 0}
+.cols h3{
+  font-family:var(--sans);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-soft);margin:0 0 .6rem;padding-bottom:.4rem;
+  border-bottom:1px solid var(--rule-strong);
+}
+.cols ul{margin:0;padding-left:1.1rem}
+.cols li{margin:.6rem 0;font-size:.95rem;line-height:1.5}
+.cols div:first-child h3{color:var(--green)}
+.cols div:last-child h3{color:var(--ochre)}
+
+figure.plate.chart img{filter:none}
+
+@media (max-width:640px){
+  .cols{grid-template-columns:1fr;gap:0}
+  .cols div:last-child{margin-top:1.6rem}
+}
+
+/* ---------- build notes page ---------- */
+.notes-head{padding:3.5rem 0 0;border-bottom:3px double var(--rule-strong);margin-bottom:.5rem}
+.back{
+  font-family:var(--sans);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-soft);text-decoration:none;
+}
+.back:hover{color:var(--ink)}
+.notes-title{
+  font-size:clamp(2.6rem,9vw,4rem);line-height:.9;margin:.9rem 0 0;
+  font-weight:600;color:var(--ink);letter-spacing:.01em;
+}
+.notes-sub{font-size:1.18rem;line-height:1.5;margin:1rem 0 0;color:var(--ink)}
+.notes-meta{color:var(--ink-soft);border-top-color:var(--rule);margin-bottom:1.4rem}
+
+/* Documentation call-to-action on the landing page */
+.readmore{
+  display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
+  border:1px solid var(--rule-strong);background:var(--paper-2);
+  padding:1.1rem 1.2rem;margin:2.4rem 0;text-decoration:none;color:var(--ink);
+}
+.readmore:hover{border-color:var(--ink)}
+.readmore .rm-t{font-size:1.12rem;font-weight:600;line-height:1.35;display:block}
+.readmore .rm-s{
+  font-family:var(--sans);font-size:.76rem;color:var(--ink-soft);
+  display:block;margin-top:.3rem;line-height:1.5;
+}
+.readmore .rm-go{
+  font-family:var(--sans);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ochre);white-space:nowrap;font-weight:600;
+}
+
+/* ---------- fixed top-right controls ---------- */
+/* Documentation link and theme toggle share one group so they read as a pair
+   rather than two floating widgets. */
+.topnav{
+  position:fixed; top:1rem; right:1rem; z-index:20;
+  display:flex; align-items:stretch; gap:0;
+}
+.topnav-link, .topnav .theme-toggle{
+  font-family:var(--sans); font-size:.62rem; letter-spacing:.14em;
+  text-transform:uppercase; line-height:1;
+  background:var(--paper); color:var(--ink-soft);
+  border:1px solid var(--rule-strong);
+  padding:.5rem .7rem; cursor:pointer; text-decoration:none;
+  display:flex; align-items:center;
+}
+.topnav-link{border-right:0}
+.topnav-link:hover, .topnav .theme-toggle:hover{color:var(--ink);border-color:var(--ink)}
+.topnav-link:hover + .theme-toggle{border-left-color:var(--ink)}
+.topnav-link:focus-visible, .topnav .theme-toggle:focus-visible{
+  outline:2px solid var(--ochre); outline-offset:2px;
+}
+/* the standalone rule from before no longer applies inside .topnav */
+.topnav .theme-toggle{position:static;top:auto;right:auto}
+
+@media (max-width:520px){
+  .topnav{top:auto;bottom:1rem;right:1rem}
+}
+
+/* ---------- FAQ ---------- */
+/* Native <details>, so it works with no JavaScript, is keyboard reachable and
+   is searchable by the browser's find-in-page. */
+.faq{margin:1.6rem 0 0;border-top:1px solid var(--ink)}
+.faq-cat{
+  font-family:var(--sans);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ochre);margin:2.2rem 0 .2rem;font-weight:700;
+}
+.faq details{border-bottom:1px solid var(--rule)}
+.faq summary{
+  cursor:pointer;list-style:none;padding:.95rem 2rem .95rem 0;position:relative;
+  font-size:1.06rem;font-weight:600;line-height:1.4;color:var(--ink);
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"+";position:absolute;right:.2rem;top:.85rem;
+  font-family:var(--mono);font-size:1.3rem;color:var(--ochre);line-height:1;
+}
+.faq details[open] summary::after{content:"\2212"}
+.faq summary:hover{color:var(--ochre)}
+.faq summary:focus-visible{outline:2px solid var(--ochre);outline-offset:3px}
+.faq details p{
+  margin:0 0 1.1rem;font-size:.97rem;line-height:1.62;color:var(--ink-soft);
+  padding-right:2rem;
+}
+.faq details p a{color:var(--green)}

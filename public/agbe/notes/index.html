@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AGBE build notes</title>
+<meta name="description" content="The engineering log behind AGBE: how the scoring formula picked the model, how the training corpus was built, and what thirteen model builds taught me about what a 1B model can and cannot learn.">
+<link rel="icon" href="/agbe/img/mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/agbe/css/style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="topnav-link" href="/agbe/">AGBE</a>
+  <button class="theme-toggle" type="button" aria-label="Switch theme">Dark</button>
+</nav>
+
+<div class="wrap">
+
+  <header class="notes-head">
+    <a class="back" href="/agbe/">← AGBE</a>
+    <h1 class="notes-title">Build notes</h1>
+    <p class="notes-sub">What I measured, what broke, and what thirteen model builds taught me about a 1B model's limits. Written as it happened, including the parts that did not work.</p>
+    <div class="hero-meta notes-meta">
+      <span>Africa Deep Tech Challenge 2026</span>
+      <span>Domain: Agriculture</span>
+      <span>Gemma 3 1B · LoRA r32 · GGUF Q4_K_M</span>
+    </div>
+  </header>
+
+  <h2>01</h2>
+  <p class="h2sub">Read the scoring function before writing code</p>
+  <p>The challenge publishes its formula. Accuracy is judged by people; everything else is arithmetic.</p>
+  <div class="figbox">
+    <span class="legend">Scoring</span>
+    <pre class="formula">
+S<span class="hi">total</span> = 0.50·S<span class="hi">acc</span> + 0.30·S<span class="hi">perf</span> + 0.20·S<span class="hi">eff</span> − P<span class="hi">thermal</span>
+
+S<span class="hi">perf</span> = 100 × (TPS_act ÷ TPS_max)
+S<span class="hi">eff</span>  = max(0, (7.0 − peak RAM GB) ÷ 7.0) × 100
+P<span class="hi">thermal</span> = 10 if the CPU throttles or exceeds 85°C</pre>
+  </div>
+  <p>Two things fall out, and one of them I initially read wrong. Memory is charged linearly, so every gigabyte is paid for. I first misread the provisional 15 tok/s reference as a cap, which would have made surplus speed worthless. The published formula is <code>100 &times; (TPS<sub>act</sub> &divide; TPS<sub>max</sub>)</code>, so the denominator is the fastest submission and extra speed keeps paying. The instinct to run the largest model that fits in 8 GB is therefore backwards, and it is what most of a field of roughly 1,700 will do.</p>
+
+  <h2>02</h2>
+  <p class="h2sub">Measure five candidates, do not reason about them</p>
+  <p>I built a harness that holds the machine to the ADTC Standard Laptop profile: four threads, no GPU offload, memory capped to 7 GB, CPU-only <code>llama.cpp</code>.</p>
+  <figure class="plate chart">
+    <img src="/agbe/img/score-curve.png" loading="lazy" alt="Stacked bar chart of five models by engineering points.">
+    <figcaption><span class="pn">Figure 1</span> Points available before any human accuracy judging, scored under the published formula. Qwen2.5 0.5B banks 48.6 of 50 and Gemma 3 1B 34.8. Qwen2.5 3B banks 18.1: it has the lowest measured throughput of the candidates and its 3.26 GB footprint collapses the memory term, so it loses on both terms at once.</figcaption>
+  </figure>
+  <p>The 3B concedes <strong>16.7 points</strong> to Gemma 3 1B before answering a single question, which it would have to win back on accuracy alone. I chose Gemma 3 1B over the 0.5B believing it cost about one point. That was my own misreading of the provisional 15 tok/s reference: throughput is scored relative to the fastest submission, and under the published formula the choice cost <strong>13.77</strong> points, not one. I did not switch, because recovering that would need the 0.5B to lose fewer than 27.5 points of panel accuracy, and fitting agronomy into a 1B was the hard part of this project. The shipped figure elsewhere on this site is 1,039 MB, the official profiler's peak RSS for the final model: a different measurement of a different thing, and the one that counts for scoring.</p>
+
+  <h2>03</h2>
+  <p class="h2sub">A thermal result that runs backwards</p>
+  <p>My first clean run lost the full ten-point penalty at 91°C. Sweeping thread counts produced a result that looked wrong:</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Threads</th><th>tok/s</th><th>Peak °C</th><th>Penalty</th><th>Points</th></tr></thead>
+      <tbody>
+        <tr class="fail"><td>2</td><td>20.8</td><td>99.0</td><td>−10</td><td>36.39</td></tr>
+        <tr class="fail"><td>3</td><td>25.8</td><td>99.0</td><td>−10</td><td>36.39</td></tr>
+        <tr class="pick"><td>4</td><td>20.6</td><td>83.0</td><td>0</td><td>46.39</td></tr>
+        <tr><td>6</td><td>25.9</td><td>84.0</td><td>0</td><td>46.39</td></tr>
+      </tbody>
+      <caption>Fewer threads ran hotter. With only two or three cores loaded the CPU boosts toward its single-core turbo ceiling and per-core temperature spikes. At four or more the all-core power limit caps clocks, spreading the same work cooler. More parallelism, less heat, more throughput.</caption>
+    </table>
+  </div>
+  <p>I initially misread the provisional 15 tok/s reference as a cap, which made surplus
+  throughput look free to trade for thermal headroom. In my own harness that appeared
+  to recover ten points. <strong>The cap was a misreading</strong>: the published formula is
+  <code>100 &times; (TPS<sub>act</sub> &divide; TPS<sub>max</sub>)</code>, so throughput is scored against the
+  fastest submission and surplus speed is never worthless. The thermal measurements below
+  stand; the trade I thought I was making does not.</p>
+  <p><strong>The official profiler then took them back.</strong> It runs a 512-token prompt-processing pass as well as generation, a much heavier sustained load, and on this i7-10850H that hits 100&deg;C and throttles from a 55&deg;C cold start with the case elevated and a fan running. Pinning to four physical cores, since the Standard Laptop is a four-core machine, made it worse: throughput fell to 14.88 tok/s, below the provisional 15 tok/s reference, and it throttled anyway.</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>If P_thermal is judged&hellip;</th><th>S_perf</th><th>S_eff</th><th>P_thermal</th><th>Total</th></tr></thead>
+      <tbody>
+        <tr><td>in the audit sandbox</td><td>100</td><td>85.5</td><td>0</td><td><strong>47.1</strong></td></tr>
+        <tr class="pick"><td>from participant telemetry</td><td>100</td><td>85.5</td><td>&minus;10</td><td><strong>37.1</strong></td></tr>
+      </tbody>
+      <caption>Throughput and memory are identical in both rows and neither depends on temperature: throughput is 24.29 tok/s, and 1,039&nbsp;MB of a 7&nbsp;GB budget gives S_eff 85.5. Only the penalty moves. The judging FAQ describes a sandbox resource-capped to the Standard Laptop profile, and a cooled datacentre host does not throttle the way a thin laptop does, so the sandbox row is the likelier one. I quote the lower figure because it is the one I can prove: three profiler runs, from 88&deg;C, 44&deg;C and 54&deg;C, all peaked at 99 to 100&deg;C and all throttled. Starting cold does not help on this chassis, so the penalty is a property of the hardware rather than of the preparation.</caption>
+    </table>
+  </div>
+
+  <h2>04</h2>
+  <p class="h2sub">The corpus, and why it is composed rather than scraped</p>
+  <p>No dataset ships with this challenge. Scraping the web or having a large model write the answers would both have been faster, and both put claims into the training data that nobody can trace. This domain is graded by agronomists who notice invented chemistry.</p>
+  <p>Every pair is composed from a curated fact base of established extension practice. If a fact is not in that file, it cannot appear in the corpus. No fabricated yields, no prices, and above all no agrochemical doses: where a real answer needs a rate, it points at the product label and the local extension officer.</p>
+
+  <h2>05</h2>
+  <p class="h2sub">Thirteen builds, and four different problems</p>
+  <p>Every build was judged by reading its answers, not by its loss curve. The loss curve looked healthy for every failure below.</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Build</th><th>Change</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr class="fail"><td>v1</td><td>rank 16, 3 epochs, 375 examples</td><td>Learned my answer scaffolding, not the agronomy. Told a parent to take a feverish child to an extension officer.</td></tr>
+        <tr class="fail"><td>v2</td><td>Removed repeated lead sentences; 568 examples</td><td>Stapled unrelated facts together, because the generator padded answers with other topics' facts.</td></tr>
+        <tr><td>v3</td><td>Stopped cross-topic mixing; coherent fact base</td><td>Refusal and timing correct. Pest wrong ("pod borers"); Pidgin answered in English.</td></tr>
+        <tr><td>v4</td><td>42 fall-armyworm mentions, Pidgin to 6.7%</td><td>Invented "fall army weevil". More examples did not fix a confusion.</td></tr>
+        <tr><td>v5</td><td><strong>rank 32</strong>, 5 epochs</td><td>Facts finally correct in English and Pidgin. But coherence broke: word salad, and it invented a pesticide called "dorabacite".</td></tr>
+        <tr><td>v6</td><td>rank 32, back to 3 epochs</td><td>English facts and refusal both correct and stable. Tail degeneration persists, and Pidgin named a food ("amala") as a pest. Pidgin claim withdrawn here.</td></tr>
+        <tr><td>v7&ndash;v8</td><td>Corrective exemplars from a 66-prompt battery</td><td>Closed a jailbreak that had produced a paediatric paracetamol dose. Then answered "when should I plant maize" with <strong>oil palm spacing</strong>.</td></tr>
+        <tr><td>v9</td><td>Sentence cap, planting calendars, 40 adversarial exemplars</td><td>Safest build made, 94% of 62 attacks withstood. But it <em>lost facts</em>: blossom end rot became "bacterial wilt".</td></tr>
+        <tr class="fail"><td>v10</td><td>4 epochs, to recover those facts</td><td>Recovered some, and began inventing vocabulary: "mortjacket" for coccidiosis. The v5 failure again. Reverted.</td></tr>
+        <tr><td>v11</td><td><strong>Symptom-first diagnosis</strong>, rare facts protected from the cap</td><td>Diagnosis 7/12 &rarr; 10/12. The corpus had only ever asked about <em>named</em> diseases, never about symptoms.</td></tr>
+        <tr class="fail"><td>v12</td><td>Contrast exemplars for confusable livestock pairs</td><td>Gained one livestock prompt, gave back safety leaks. Rejected.</td></tr>
+        <tr class="pick"><td><strong>v13</strong></td><td><strong>Bidirectional</strong> contrast, armyworm vs stem borer</td><td><strong>Shipped.</strong> 49/66, zero safety leaks, and it names fall armyworm on my own submitted prompt where v11 and v12 both said stem borer.</td></tr>
+      </tbody>
+      <caption>Four corpus iterations preceded any change to the training configuration, and rank was the missing variable the whole time. Seven builds later the same shape recurred: I was counting conversations when what the model actually sees is sentences.</caption>
+    </table>
+  </div>
+
+  <p>The pattern only became visible at v5, and it is the most useful thing this project produced:</p>
+
+  <div class="cols">
+    <div>
+      <h3>Behaviours</h3>
+      <ul>
+        <li>Refusing out-of-scope questions, hedging on doses, admitting no cure exists</li>
+        <li>Generalise from few examples</li>
+        <li>Fixed at rank 16, stable ever since</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Facts</h3>
+      <ul>
+        <li>Which pest, which symptom, which spacing</li>
+        <li>Need model capacity, not more examples</li>
+        <li>Only fixed when LoRA rank doubled to 32</li>
+      </ul>
+    </div>
+  </div>
+  <p><strong>Coherence</strong> is a third axis, and it degrades with over-training. v5 recalled facts and then filled the remaining tokens with fluent nonsense once it exhausted what it had learned. Adding examples cannot fix that, and neither can adding capacity. v10 proved the point twice by inventing "mortjacket" for coccidiosis five builds later.</p>
+
+  <p><strong>Sentence diversity</strong> is a fourth axis, and I was not measuring it for six more builds. An audit after v8 found 1,020 conversations built from only <strong>900 unique sentences</strong>: 5.6 reuses each, and one sentence appearing 40 times. At three epochs the model saw each one about seventeen times and memorised it as a unit, then emitted those units by topic rather than by question. That is how "roughly 143 palms per hectare", an oil palm figure, ended up inside an answer about maize. <strong>Growing the corpus from 642 to 1,020 conversations made the model worse</strong>, because the count grew and the diversity did not.</p>
+
+  <p>The last of these is the subtlest. Contrast exemplars fix confusions: naming the alternative and rejecting it worked where volume had failed. But a contrast teaches a <em>direction</em>, not a boundary. Five examples reading "that is stem borer, not armyworm" and none of the reverse left v12 answering the textbook fall armyworm description with "that is stem borer", on my own submitted test prompt. An unbalanced contrast relocates a bias rather than removing it, and the corpus builder now audits every such pair for its opposite.</p>
+
+  <blockquote class="pull">
+    A model that invents a pesticide name is more dangerous than one that admits it does not know. That is why refusal was trained first and guarded hardest.
+  </blockquote>
+
+  <h2>05b</h2>
+  <p class="h2sub">Knowing when to stop, and what to withdraw</p>
+  <p>By the sixth build, English diagnosis and refusal behaviour were reliable. Nigerian Pidgin is not. It was correct in v5 and in v6 it named <em>amala</em>, a food, as a maize pest. Adding more Pidgin examples is exactly what I tried between v3 and v4 for pest naming, and it produced the invented "fall army weevil" rather than a fix.</p>
+  <p>So the Pidgin claim was withdrawn from <code>language_scope</code> rather than shipped and hoped for. The African use-case claim is unchanged, because it never rested on language: it rests on the domain being cassava mosaic, striga, aflatoxin, Newcastle disease and harmattan planting windows.</p>
+  <p>A capability that works in one build and invents food names in the next is not a capability. Claiming it would have been the easiest thing on this page to get away with, and the fastest way to lose a judge who speaks the language.</p>
+
+  <h2>06</h2>
+  <p class="h2sub">The environment, which fought back</p>
+  <p>Recorded because they cost real time and every one is reproducible:</p>
+  <ol class="steps">
+    <li><strong>Kaggle's base image contradicts itself.</strong> It ships <code>peft</code> 0.19.1 alongside <code>torchao</code> 0.10.0, and that <code>peft</code> raises on any <code>torchao</code> below 0.16 from inside its LoRA dispatcher.</li>
+    <li><strong>Upgrading made it worse.</strong> <code>pip install -U</code> pulled versions that no longer matched the preinstalled <code>torchvision</code>, and disturbed TensorFlow's protobuf. Both break <code>import transformers</code> outright. The fix was to stop upgrading and remove what is unused.</li>
+    <li><strong><code>trl</code> broke inside its own chunked cross-entropy path</strong> on a PEFT-wrapped causal LM. I dropped it for plain <code>transformers.Trainer</code>, which also made the label masking explicit and verifiable.</li>
+    <li><strong>Gemma 3 ships a token the text-only 1B cannot use.</strong> <code>&lt;image_soft_token&gt;</code> sits at id 262144 with <code>vocab_size</code> 262144, so llama.cpp's converter fails its vocabulary assertion at the very end, after writing every tensor.</li>
+    <li><strong><code>llama-cli</code> hangs without <code>-st</code>.</strong> It generates the answer and then waits on a terminal that never comes, which cost a 900-second timeout per prompt before I found <code>--single-turn</code>.</li>
+    <li><strong>Truncated downloads pass a header check.</strong> A partial GGUF keeps a valid magic number at byte 0, so only the length reveals it. My download script now verifies length and resumes.</li>
+    <li><strong>A CPU-only torch wheel arrives uninvited.</strong> llama.cpp's convert requirements install one, and once it lands the GPU build is gone for the rest of the container. A later re-run of the training cell then trains on CPU: no crash, no hang, just a 30x slowdown indistinguishable from a deadlock. The trainer now aborts rather than warns.</li>
+    <li><strong>And that fix broke the export, which took seven attempts to trace.</strong> Filtering torch out meant writing the requirements elsewhere, which broke a relative include inside the file, so pip aborted silently. That install had been quietly doing a second job: pinning transformers <em>down</em> from 5.0 to 4.57. Without the pin, conversion dies on a vocabulary assertion, because transformers 5.0's Gemma tokenizer injects a token at the one id the text-only 1B cannot hold. Five fixes were written for a tokenizer that was never broken.</li>
+    <li><strong>A checksum caught what a size check would have passed.</strong> Resuming a download onto a file already at full length appends nothing and exits happily, leaving old content at exactly the right byte count. The published weights are now verified by downloading all 814,261,088 bytes and hashing them, not by trusting a response header.</li>
+  </ol>
+
+  <h2>07</h2>
+  <p class="h2sub">What I would tell the next team</p>
+  <p>Read the scoring function first; it told me to build a 1B when instinct said 3B. Measure on the target profile rather than reasoning about it, because the thermal result ran backwards from intuition. Judge a model by reading its answers, since every failure here had a healthy loss curve. And when style transfers but facts do not, the problem is capacity, not data.</p>
+
+  <footer>
+    <p class="sig">AGBE. Nwokolo Victor Oluebubechukwu, Lagos.</p>
+    <p><a href="/agbe/">Back to AGBE</a> ·
+       <a href="https://youtu.be/sevKpLqCt-E">Demo video</a> &middot; <a href="https://github.com/nevodesigns/agbe">Source, corpus and model card</a> ·
+       <a href="https://huggingface.co/NEVODESIGN/agbe-1b">Weights</a></p>
+    <p>Every figure on this page is measured on the target profile. Where a number is provisional it says so.</p>
+  </footer>
+
+</div>
+
+<script src="/agbe/js/main.js" defer></script>
+</body>
+</html>

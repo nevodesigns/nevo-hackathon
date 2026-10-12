@@ -1,0 +1,11 @@
+{
+  "name": "nevo-hackathon",
+  "private": true,
+  "scripts": {
+    "start": "serve public -c ../serve.json -l $PORT",
+    "deploy": "pxxl deploy"
+  },
+  "dependencies": {
+    "serve": "^14.2.3"
+  }
+}

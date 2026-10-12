@@ -1,0 +1,4 @@
+name = "nevo-hackathon"
+installCommand = "npm install"
+startCommand = "npx serve public -c ../serve.json -l $PORT"
+port = 3000

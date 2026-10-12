@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Golazo, an agent-payable World Cup 2026 data API</title>
+  <meta name="description" content="A permanent, agent-callable archive of the 2026 FIFA World Cup on Injective. Free endpoints serve the whole tournament. Premium endpoints paid per call in USDC via x402.">
+  <meta property="og:title" content="Golazo, an agent-payable World Cup 2026 data API">
+  <meta property="og:description" content="A permanent, agent-callable archive of the 2026 FIFA World Cup on Injective. Free endpoints serve the whole tournament. Premium endpoints paid per call in USDC via x402.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://golazo.pxxl.run/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/nevodesigns/golazo-site/main/assets/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Golazo, an agent-payable World Cup 2026 data API">
+  <meta name="twitter:description" content="A permanent, agent-callable archive of the 2026 FIFA World Cup on Injective. Premium endpoints paid per call in USDC via x402.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/nevodesigns/golazo-site/main/assets/og.png">
+  <link rel="icon" href="assets/favicon.ico?v=9c5dcc8" sizes="16x16 32x32">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png?v=9c5dcc8">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=9c5dcc8">
+  <link rel="stylesheet" href="styles.css?v=9c5dcc8">
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <span class="brand">GOLA<b>ZO</b></span>
+    <a class="btn btn-primary btn-small" href="https://github.com/nevodesigns/golazo">View the code</a>
+  </header>
+
+  <main id="main">
+
+    <!-- SHT 01 HERO -->
+    <section class="hero" aria-label="Introduction">
+      <div class="inner">
+        <p class="eyebrow reveal">AGENT-PAYABLE / WORLD CUP 2026 ARCHIVE / INJECTIVE TESTNET</p>
+        <h1 class="reveal">GOLA<span>ZO</span></h1>
+        <p class="subline reveal">An agent-payable World Cup 2026 data API on Injective.</p>
+        <p class="support reveal">Free endpoints for the whole archive. Premium endpoints paid per call in USDC through x402, no human sign-off.</p>
+        <div class="cta-row reveal">
+          <a class="btn btn-primary" href="https://github.com/nevodesigns/golazo">View the code</a>
+          <a class="btn btn-ghost" href="#money">Watch the demo</a>
+        </div>
+        <a class="chip reveal" href="https://testnet.blockscout.injective.network/tx/0x5222ef0952df83d252240ca3059e37951488d880f765081d891ef67bd0f03171"><b>PROOF</b> Real settled payment on chain</a>
+      </div>
+    </section>
+
+    <!-- SHT 02 THE PROBLEM -->
+    <section id="problem" aria-labelledby="problem-label">
+      <div class="inner">
+        <p class="sheet-label" id="problem-label">SHT 02 / THE PROBLEM</p>
+        <div class="prose reveal">
+          <p>The 2026 FIFA World Cup ended on 19 July 2026. Nobody built agent-payable infrastructure for the finished tournament, because live data providers moved on the moment the final whistle blew. Golazo makes the completed tournament a permanent, machine-payable archive: 48 teams, 12 groups, 104 matches, and the full knockout bracket, all agent-callable, priced in USDC per query.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHT 03 THE FOUR INJECTIVE TECHNOLOGIES -->
+    <section id="tech" aria-labelledby="tech-label">
+      <div class="inner">
+        <p class="sheet-label" id="tech-label">SHT 03 / THE FOUR INJECTIVE TECHNOLOGIES</p>
+        <p class="intro reveal">Every claim below maps to a file in the repository. The code is pulled verbatim from it.</p>
+        <div class="tech-grid">
+
+          <article class="sheet reveal">
+            <div class="sheet-head"><span class="tag">TECH-01</span><span class="price">x402</span></div>
+            <h3>Payment protocol</h3>
+            <p class="desc">HTTP 402 micropayments in USDC, settled with EIP-3009 <b>transferWithAuthorization</b>. No per-call approval, and the facilitator pays the gas.</p>
+            <p class="desc">Here it gates every premium route. The client receives the 402, signs, and retries automatically.</p>
+            <pre class="code"><span class="c">// receive 402, sign EIP-3009, retry, no human</span>
+import { createInjectiveClient } from
+  "@injectivelabs/x402/client";
+
+const client = createInjectiveClient({
+  privateKey: process.env.GOLAZO_WALLET_KEY,
+});
+const res = await client.fetch(API + "/v1/premium/stats");
+const data = await res.json();</pre>
+            <span class="srclink"><b>SRC</b> <a href="https://github.com/nevodesigns/golazo/blob/main/src/server.ts">src/server.ts</a></span>
+          </article>
+
+          <article class="sheet reveal">
+            <div class="sheet-head"><span class="tag">TECH-02</span><span class="price">MCP SERVER</span></div>
+            <h3>Agent access</h3>
+            <p class="desc">A Model Context Protocol server over stdio, exposing seven tools. Premium tools auto-pay through the x402 client, so an agent buys data with no human in the loop.</p>
+            <p class="desc">Add one config block to Claude Desktop, Cursor, or any MCP client.</p>
+            <pre class="code">{
+  "mcpServers": {
+    "golazo": {
+      "command": "npm",
+      "args": ["run", "mcp"],
+      "env": {
+        "GOLAZO_API_URL": "http://localhost:3000",
+        "GOLAZO_WALLET_KEY": "0xYOUR_AGENT_KEY"
+      }
+    }
+  }
+}</pre>
+            <span class="srclink"><b>SRC</b> <a href="https://github.com/nevodesigns/golazo/blob/main/src/mcp/server.ts">src/mcp/server.ts</a></span>
+          </article>
+
+          <article class="sheet reveal">
+            <div class="sheet-head"><span class="tag">TECH-03</span><span class="price">AGENT SKILLS</span></div>
+            <h3>Installable skill</h3>
+            <p class="desc">A skill in the Agent Skill standard that teaches an agent what data exists, which queries are free versus 0.01 USDC, and how to read the results.</p>
+            <p class="desc">Installed alongside the MCP server. This is its frontmatter.</p>
+            <pre class="code">---
+name: golazo-worldcup
+description: &gt;
+  Query the complete FIFA World Cup 2026
+  archive through the Golazo MCP tools.
+  Premium tools cost 0.01 USDC per call,
+  paid automatically via x402 on Injective.
+license: MIT
+---</pre>
+            <span class="srclink"><b>SRC</b> <a href="https://github.com/nevodesigns/golazo/blob/main/skill/SKILL.md">skill/SKILL.md</a></span>
+          </article>
+
+          <article class="sheet reveal">
+            <div class="sheet-head"><span class="tag">TECH-04</span><span class="price">CCTP</span></div>
+            <h3>Cross-chain funding</h3>
+            <p class="desc">Circle CCTP V2 lets the agent refuel its own USDC. It burns native USDC on Avalanche Fuji and mints it to the agent on Injective, domain 29.</p>
+            <p class="desc">One command runs burn, attest, and mint.</p>
+            <pre class="code"><span class="c"># burn on Fuji, Iris attests, mint on Injective</span>
+GOLAZO_WALLET_KEY=0x&lt;agent&gt; \
+PRIVATE_KEY=0x&lt;facilitator&gt; \
+  npm run fund-agent -- 0.5</pre>
+            <span class="srclink"><b>SRC</b> <a href="https://github.com/nevodesigns/golazo/blob/main/scripts/fund-agent.ts">scripts/fund-agent.ts</a></span>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SHT 04 THE MONEY SHOT -->
+    <section id="money" aria-labelledby="money-label">
+      <div class="inner">
+        <p class="sheet-label" id="money-label">SHT 04 / THE MONEY SHOT</p>
+        <h2 class="section-h reveal">A real agent paid for data, on chain, with no human.</h2>
+        <p class="intro reveal">Not a mock. An agent hit a premium tool, received a 402, signed EIP-3009, settled the payment, and got the data back.</p>
+
+        <div class="proof reveal">
+          <p class="proof-h">SETTLED PAYMENT / INJECTIVE TESTNET 1439</p>
+          <div class="hash">0x5222ef0952df83d252240ca3059e37951488d880f765081d891ef67bd0f03171</div>
+          <div class="proof-rows">
+            <div><span>BLOCK</span>134546275</div>
+            <div><span>AMOUNT</span>0.01 USDC</div>
+            <div><span>METHOD</span>transferWithAuthorization</div>
+            <div><span>STATUS</span>Success</div>
+          </div>
+          <a class="btn btn-primary btn-small" href="https://testnet.blockscout.injective.network/tx/0x5222ef0952df83d252240ca3059e37951488d880f765081d891ef67bd0f03171">Open on Blockscout</a>
+        </div>
+
+        <div class="video-wrap reveal">
+          <figure class="vcard">
+            <video controls preload="metadata" playsinline>
+              <source src="videos/golazo-demo-vo.mp4" type="video/mp4">
+              Your browser does not support the video tag. Download the demo at videos/golazo-demo-vo.mp4
+            </video>
+            <figcaption class="vcard-label"><b>DEMO / 119s</b> Free API, the settled payment end to end, the agent skill, and CCTP.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHT 05 ARCHITECTURE -->
+    <section id="architecture" aria-labelledby="arch-label">
+      <div class="inner">
+        <p class="sheet-label" id="arch-label">SHT 05 / ARCHITECTURE</p>
+        <div class="flow-grid">
+          <div class="sheet flow reveal">
+            <div class="sheet-head"><span class="tag">FLOW-01</span><span class="price">PAY AND RETURN</span></div>
+            <ol>
+              <li><b>Client agent calls a premium tool</b> through the MCP server.</li>
+              <li><b>The x402 middleware returns 402</b> with EIP-3009 payment terms.</li>
+              <li><b>The client signs and retries</b> with the payment header.</li>
+              <li><b>A custom facilitator confirms settlement</b> via <code>eth_getLogs</code>, not <code>eth_getTransactionReceipt</code>, which does not work on this testnet.</li>
+              <li><b>The tool returns the data.</b></li>
+            </ol>
+          </div>
+          <div class="sheet finding reveal">
+            <p class="proof-h">TESTNET RPC FINDING</p>
+            <p>Injective testnet emits transfer logs but returns <b>null</b> for <code>eth_getTransactionReceipt</code> on the same transaction, tested across four RPC endpoints. That is why settlement is confirmed with <code>eth_getLogs</code>.</p>
+            <span class="srclink"><b>SRC</b> <a href="https://github.com/nevodesigns/golazo/blob/main/docs/testnet-rpc-notes.md">docs/testnet-rpc-notes.md</a></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHT 06 WHAT YOU CAN DO WITH IT -->
+    <section id="endpoints" aria-labelledby="ep-label">
+      <div class="inner">
+        <p class="sheet-label" id="ep-label">SHT 06 / WHAT YOU CAN DO WITH IT</p>
+        <div class="endpoints">
+          <article class="sheet reveal">
+            <div class="ep-head"><span class="tag">API-FREE</span><h3>Free endpoints</h3></div>
+            <ul class="ep-list">
+              <li>/health</li>
+              <li>/v1/tournament</li>
+              <li>/v1/teams</li>
+              <li>/v1/matches <span>filterable by stage and team</span></li>
+            </ul>
+          </article>
+          <article class="sheet reveal">
+            <div class="ep-head"><span class="tag">API-PREMIUM</span><span class="price">0.01 USDC EACH</span></div>
+            <ul class="ep-list">
+              <li>head to head</li>
+              <li>match analytics</li>
+              <li>team breakdown</li>
+              <li>full stats export</li>
+            </ul>
+          </article>
+        </div>
+        <p class="ep-note reveal">The MCP server and Agent Skill make these callable from any AI agent that supports MCP. <b>Setup is one config block in Claude Desktop or Cursor.</b></p>
+      </div>
+    </section>
+
+    <!-- SHT 07 DATASET INTEGRITY -->
+    <section id="dataset" aria-labelledby="data-label">
+      <div class="inner">
+        <p class="sheet-label" id="data-label">SHT 07 / DATASET INTEGRITY</p>
+        <div class="prose reveal">
+          <p>The offline seed contains all 104 matches, all 48 teams, and all 12 groups, so the API is complete with no network access and no key. The final was <b>Spain 1 Argentina 0</b> on 19 July 2026, Ferran Torres 106th minute, at MetLife Stadium.</p>
+          <p>The dataset was reconciled against football-data.org's authoritative feed, and the reconciliation caught a real error in an early seed, a Norway vs Brazil scoreline. Every match carries a provenance field, verified or imported. The refresh script keeps both paths working.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="inner footer-inner">
+      <p class="copyright">(c) 2026 nevodesigns</p>
+      <table class="title-block" aria-label="Title block">
+        <tr><td><span>PROJECT</span>GOLAZO</td><td><span>HOSTED</span>PXXL.RUN</td></tr>
+        <tr><td><span>REV</span>1.0</td><td><span>DATE</span>JUL 2026</td></tr>
+        <tr><td><span>INJECTIVE</span>TESTNET 1439</td><td><span>TEAM</span>BUILT SOLO</td></tr>
+      </table>
+    </div>
+  </footer>
+
+  <script src="script.js?v=9c5dcc8">
+</body>
+</html>

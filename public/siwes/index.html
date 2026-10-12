@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/siwes/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Tamper-proof onchain SIWES logbook on Monad. Students submit daily log hashes, supervisors approve them, institutions verify the record publicly." />
+    <meta name="theme-color" content="#0A0A0A" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="SIWESLog" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/siwes/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <title>SIWES LogChain</title>
+    <script>
+      // Register the network-first service worker ourselves. The version query
+      // sidesteps Pxxl's edge cache: the bare /sw.v2.js path was poisoned with
+      // an HTML SPA fallback that Cloudflare pinned as immutable, but Cloudflare
+      // keys by query string so /sw.v2.js?v=1 serves the real worker file. Bump
+      // the version only if the worker logic itself changes. This script lives
+      // in index.html, which Pxxl always serves fresh, so it reaches every
+      // browser even though standalone .js files are frozen at the edge.
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker
+            .register('/siwes/sw.v2.js?v=1', { scope: '/siwes/' })
+            .catch(function () {
+              /* no worker is fine, the app works fully online without it */
+            })
+        })
+      }
+    </script>
+    <script type="module" crossorigin src="/siwes/assets/index-WtCSIX8X.js"></script>
+    <link rel="modulepreload" crossorigin href="/siwes/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="stylesheet" crossorigin href="/siwes/assets/index-BCvjMBBf.css">
+  <link rel="manifest" href="/siwes/manifest.webmanifest"></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
