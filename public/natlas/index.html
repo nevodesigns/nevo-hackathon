@@ -105,6 +105,15 @@
   .foot-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
   .foot-links{display:flex;gap:28px;flex-wrap:wrap}
   .note{margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);font-size:12.5px;color:#7B988C;max-width:760px}
+
+  /* beta testing */
+  .bug-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+  .bug-list li{display:grid;grid-template-columns:90px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+  .bug-list li:last-child{border-bottom:none}
+  .bug-list .who{font-family:"JetBrains Mono",monospace;font-size:13px;color:#7FD3B6;padding-top:2px}
+  .bug-list .issue{color:#EAF3EF;font-size:15px;margin:0 0 4px}
+  .bug-list .fix{color:#9FC0B4;font-size:14px;margin:0}
+  @media(max-width:640px){.bug-list li{grid-template-columns:1fr}.bug-list .who{padding-top:0}}
 </style>
 </head>
 <body>
@@ -122,6 +131,7 @@
         <a href="#features">Features</a>
         <a href="#example">Example</a>
         <a href="#proven">Proven</a>
+        <a href="#beta">Beta testing</a>
         <a class="btn btn-primary" href="https://github.com/nevodesigns/natlas-kit" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </nav>
@@ -247,6 +257,109 @@ extract(nat, <span class="c-str">"Sold 2 brake pads for 15k to Musa on credit"</
   <span class="c-str">"counterparty"</span>:<span class="c-str">"Emeka Motors"</span>, <span class="c-str">"on_credit"</span>:true }
 
 <span style="color:#E3A63C">→ Also opens a debt of ₦18,000 for Emeka Motors.</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="beta" class="dark">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow" style="color:#7FD3B6">Beta tested, in the open</div>
+      <h2>Three outside developers. Nine real bugs, fixed.</h2>
+      <p class="muted" style="margin-top:12px">Before this submission, natlas-kit was handed to developers outside the core team with no instruction beyond "break it." Every issue they found, and what was done about it, is public in
+        <a class="mono" style="color:#7FD3B6;text-decoration:underline" href="https://github.com/nevodesigns/natlas-kit/blob/main/BETA_TESTING.md" target="_blank" rel="noopener">BETA_TESTING.md</a>,
+        including the ones that turned out not to be bugs.</p>
+    </div>
+
+    <div class="stat-row" style="margin-top:30px">
+      <div class="stat"><b>3</b><span>outside testers, no core-team involvement</span></div>
+      <div class="stat"><b>9 / 9</b><span>confirmed issues fixed, each with a regression test</span></div>
+      <div class="stat"><b>2</b><span>implementations kept in parity: Python and TypeScript</span></div>
+    </div>
+
+    <div class="grid cols-3" style="margin-top:30px">
+      <div class="card"><h3>Dayo</h3><p>CLI-focused testing: empty input, missing and malformed arguments.</p></div>
+      <div class="card"><h3>Mario</h3><p>Fresh-install testing, following only the public README and website, nothing else.</p></div>
+      <div class="card"><h3>Ebube</h3><p>Deep edge-case testing of <span class="mono">extract()</span>, <span class="mono">classify()</span> and the retry logic, in both Python and TypeScript, with a written regression report.</p></div>
+    </div>
+
+    <div class="card" style="margin-top:34px;padding:8px 24px">
+      <ul class="bug-list">
+        <li>
+          <span class="who">Ebube</span>
+          <div>
+            <p class="issue">The JSON scanner counted <span class="mono">{</span>/<span class="mono">}</span> inside quoted string values, breaking on text like <span class="mono">{"note": "closing brace } inside text"}</span>.</p>
+            <p class="fix">Fix: both the Python and TypeScript JSON finders now track string state and ignore braces inside quotes.</p>
+          </div>
+        </li>
+        <li>
+          <span class="who">Ebube</span>
+          <div>
+            <p class="issue">Malformed-JSON repair blindly replaced <span class="mono">'</span> with <span class="mono">"</span>, corrupting apostrophes inside already-valid strings, e.g. <span class="mono">"O'Connor"</span> became <span class="mono">"O"Connor"</span>.</p>
+            <p class="fix">Fix: replaced with a quote-aware scanner that only converts single-quote delimiters, not apostrophes inside text.</p>
+          </div>
+        </li>
+        <li>
+          <span class="who">Ebube</span>
+          <div>
+            <p class="issue">In Python, a boolean was silently accepted for a number/integer field, because <span class="mono">bool</span> is a subclass of <span class="mono">int</span>.</p>
+            <p class="fix">Fix: validation now explicitly rejects booleans for numeric fields in both implementations.</p>
+          </div>
+        </li>
+        <li>
+          <span class="who">Ebube</span>
+          <div>
+            <p class="issue">Fractional values in an integer field were handled inconsistently between truncating, rounding and not coercing at all.</p>
+            <p class="fix">Fix: both implementations now truncate toward zero in every case, string input, numeric input, Python and TypeScript alike.</p>
+          </div>
+        </li>
+        <li>
+          <span class="who">Ebube</span>
+          <div>
+            <p class="issue">In Python, a reply that was still malformed after repair raised a raw <span class="mono">json.JSONDecodeError</span> that escaped the retry loop instead of being caught.</p>
+            <p class="fix">Fix: every JSON parse failure is now wrapped so the existing retry handling covers it.</p>
+          </div>
+        </li>
+        <li>
+          <span class="who">Ebube</span>
+          <div>
+            <p class="issue"><span class="mono">classify()</span> could return the wrong label when one label is a substring of another, e.g. <span class="mono">["in", "income"]</span> matched <span class="mono">"income"</span> as <span class="mono">"in"</span>.</p>
+            <p class="fix">Fix: exact match is checked first, then substring matching falls back to the longest labels first.</p>
+          </div>
+        </li>
+        <li>
+          <span class="who">Dayo</span>
+          <div>
+            <p class="issue">A missing or malformed schema file raised a raw Python traceback from the CLI.</p>
+            <p class="fix">Fix: the CLI now catches that and prints a one-line error with a non-zero exit code.</p>
+          </div>
+        </li>
+        <li>
+          <span class="who">Dayo</span>
+          <div>
+            <p class="issue"><span class="mono">natlas ask ""</span> and <span class="mono">natlas extract ""</span> silently accepted an empty prompt.</p>
+            <p class="fix">Fix: the CLI now rejects empty input with a clear error instead of sending it to the model.</p>
+          </div>
+        </li>
+        <li>
+          <span class="who">Mario</span>
+          <div>
+            <p class="issue"><span class="mono">pip install natlas-kit</span>, as shown on the website and README, failed: the package wasn't published to PyPI yet.</p>
+            <p class="fix">Fix: docs and the website now show the install that works today, <span class="mono">pip install git+https://github.com/nevodesigns/natlas-kit.git</span>, verified end-to-end in a clean virtualenv.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="grid cols-2" style="margin-top:30px">
+      <div class="card">
+        <h3>Reviewed, intentionally unchanged</h3>
+        <p><span class="mono">classify()</span> returning text outside the supplied labels when nothing matches at all is documented, intentional fallback behaviour, not a bug: changing it would be a breaking API change we didn't want to make without more real-world usage first. Unsupported top-level JSON types (null, an array, a bare string) already raise correctly, and a 10,000-character input was handled without error.</p>
+      </div>
+      <div class="card">
+        <h3>What this round didn't cover</h3>
+        <p>No live N-ATLaS inference, no accuracy testing across Hausa, Igbo, Yoruba or Pidgin outputs, no real ASR audio testing, no live-endpoint failure modes, no concurrency testing. That evidence is tracked separately, against a live N-ATLaS deployment, see "Proven" above.</p>
       </div>
     </div>
   </div>
