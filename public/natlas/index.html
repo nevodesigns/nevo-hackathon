@@ -352,6 +352,22 @@ extract(nat, <span class="c-str">"Sold 2 brake pads for 15k to Musa on credit"</
       </ul>
     </div>
 
+    <div class="section-head" style="margin-top:50px">
+      <div class="eyebrow" style="color:#7FD3B6">Not just claimed, run</div>
+      <h2 style="font-size:28px">The regression suite for all nine fixes, passing.</h2>
+      <p class="muted" style="margin-top:10px">Each row above has a test behind it. These are real runs of the actual suite, Python's <span class="mono">pytest</span> and the TypeScript package's <span class="mono">node --test</span>, taken fresh for this page.</p>
+    </div>
+    <div class="grid cols-2" style="margin-top:24px;align-items:start">
+      <figure style="margin:0">
+        <img src="img/pytest-run.png" alt="pytest run of tests/test_core.py: 14 tests, all passed" style="width:100%;height:auto;display:block;border-radius:14px;border:1px solid rgba(255,255,255,.1)">
+        <figcaption class="muted" style="font-size:13px;margin-top:8px">Python: <span class="mono">tests/test_core.py</span>, 14 passed</figcaption>
+      </figure>
+      <figure style="margin:0">
+        <img src="img/js-test-run.png" alt="node --test run of the TypeScript test suite: 12 tests, all passed" style="width:100%;height:auto;display:block;border-radius:14px;border:1px solid rgba(255,255,255,.1)">
+        <figcaption class="muted" style="font-size:13px;margin-top:8px">TypeScript: <span class="mono">js/test/*.test.mjs</span>, 12 passed</figcaption>
+      </figure>
+    </div>
+
     <div class="grid cols-2" style="margin-top:30px">
       <div class="card">
         <h3>Reviewed, intentionally unchanged</h3>
