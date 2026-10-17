@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EgoScan | Paper to ledger</title>
+<meta name="description" content="EgoScan reads photos of handwritten shop notebooks and turns them into checked records a trader can trust. Gemma reads, code calculates, the owner confirms.">
+<meta name="theme-color" content="#0a6a5a">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#top" aria-label="EgoScan, top of page"><img src="assets/favicon.svg" alt="" width="28" height="28"><span>EgoScan</span></a>
+    <nav aria-label="Sections">
+      <a href="#problem">Problem</a>
+      <a href="#how">How it works</a>
+      <a href="#try">Try the checks</a>
+      <a href="#evidence">Evidence</a>
+      <a href="#security">Security</a>
+      <a href="#opportunity">Opportunity</a>
+      <a href="#status">Status</a>
+    </nav>
+    <button class="theme" id="theme" type="button" aria-label="Switch colour theme">Dark</button>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" id="top">
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <p class="eyebrow">EgoScan, the way into EgoTrack</p>
+      <h1>Paper to ledger.</h1>
+      <p class="lede">A small trader's business lives in an exercise book. EgoScan reads the photo of a page, checks every line against itself, and hands the owner a record they can trust, without retyping a single row.</p>
+      <p class="triad"><span>Gemma reads.</span> <span>Code calculates.</span> <span>The owner confirms.</span></p>
+      <div class="actions">
+        <a class="btn primary" href="#try">Try the checks</a>
+        <a class="btn" href="#evidence">Read the evidence</a>
+      </div>
+      <p class="fine">Everything on this page is labelled by what it is: measured, synthetic, or not yet verified.</p>
+    </div>
+
+    <div class="hero-art" aria-label="A synthetic notebook page beside the review screen that reads it">
+      <figure class="notebook" aria-label="Synthetic notebook page">
+        <div class="paper">
+          <p class="hand d">27/10</p>
+          <p class="hand">rice 2 x 14k = 28,000 paid</p>
+          <p class="hand">sugar 3 x 2,500 paid</p>
+          <p class="hand">Adaeze - oil 5 x 3k = 15,000 owe</p>
+          <p class="hand">beans 4 x 1,200 = 4,900 paid</p>
+          <p class="hand">pure water 3 600 paid</p>
+          <p class="hand">Total 57,300</p>
+        </div>
+        <figcaption>Synthetic page. No customer data on this site.</figcaption>
+      </figure>
+      <div class="review" aria-hidden="true">
+        <div class="review-head"><span>Review</span><span class="pill ok">2 clean</span><span class="pill warn">4 need a look</span></div>
+        <div class="row"><b>rice</b><i>2 x 14,000</i><em>28,000</em></div>
+        <div class="row flag"><b>sugar</b><i>3 x 2,500</i><em>7,500</em><small class="why">No total was written. Worked out from quantity and price. Check it.</small></div>
+        <div class="row"><b>Adaeze, oil</b><i>5 x 3,000</i><em>15,000</em><small class="why plain">Owes 15,000</small></div>
+        <div class="row flag"><b>beans</b><i>4 x 1,200</i><em>4,900</em><small class="why">Written 4,900, quantity times price is 4,800. Difference 100.</small></div>
+        <div class="row flag"><b>pure water</b><i>3 600</i><em>1,800</em><small class="why">3 600 could be 3 x 600 or 3,600. Pick one.</small></div>
+        <div class="row flag"><b>Page total</b><i>written 57,300</i><em>57,200</em><small class="why">Rows add to 57,200. Difference 100.</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="problem">
+  <div class="wrap two">
+    <div class="label"><span class="num">01</span><h2>The problem</h2></div>
+    <div class="body">
+      <p class="big">A trader's ledger is an exercise book and a pen. A line through a name means the debt was paid.</p>
+      <p>Retyping years of records into an app is why most traders never start. Every app they could use assumes the records are already digital, so the people with the most to gain are the ones locked out.</p>
+      <div class="cols">
+        <div>
+          <h3>Why existing options fail</h3>
+          <p>Cloud tools cost money, need data, and put the list of who owes the shop on someone else's server. Generic text recognition fails on notebook habits: <code>33/000</code>, <code>2.5k</code>, a naira sign read as an A, a date on its own line that applies to everything below it.</p>
+        </div>
+        <div>
+          <h3>Why it is urgent</h3>
+          <p>Money owed sits unseen in a book. Nobody can remind, total or report on what they cannot search. The record exists, but it cannot work for the owner.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" id="how">
+  <div class="wrap">
+    <div class="label row-label"><span class="num">02</span><h2>How it works</h2></div>
+    <ol class="steps">
+      <li><span>1</span><h3>Photograph</h3><p>Add a whole notebook at once. Pages are read in the background, each with its own status.</p></li>
+      <li><span>2</span><h3>Gemma transcribes</h3><p>A vision model copies each line as text. It is never asked to add anything up.</p></li>
+      <li><span>3</span><h3>Code checks</h3><p>Amounts are parsed, quantity times price is recomputed, every total is compared with the line the model read, and rows are compared with the page total.</p></li>
+      <li><span>4</span><h3>The owner reviews</h3><p>The photo sits beside the rows. Doubtful fields are highlighted with a reason in plain words.</p></li>
+      <li><span>5</span><h3>Checked pages count</h3><p>Only confirmed pages feed Owes You, reports, exports and the shop's own vocabulary.</p></li>
+    </ol>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 980 150" role="img" aria-labelledby="dg-t dg-d">
+        <title id="dg-t">The EgoScan pipeline</title>
+        <desc id="dg-d">A photo goes to a model that only transcribes, then to code that parses and checks, then to the owner who reviews, then to checked records that feed Owes You, reports, exports and EgoTrack.</desc>
+        <g class="node"><rect x="4" y="38" width="150" height="74" rx="10"/><text x="79" y="70">Photo</text><text x="79" y="92" class="sub">notebook page</text></g>
+        <g class="node"><rect x="200" y="38" width="170" height="74" rx="10"/><text x="285" y="70">Gemma 4</text><text x="285" y="92" class="sub">transcribes only</text></g>
+        <g class="node strong"><rect x="416" y="38" width="170" height="74" rx="10"/><text x="501" y="70">Code</text><text x="501" y="92" class="sub">parses and checks</text></g>
+        <g class="node"><rect x="632" y="38" width="150" height="74" rx="10"/><text x="707" y="70">Owner</text><text x="707" y="92" class="sub">reviews and confirms</text></g>
+        <g class="node"><rect x="828" y="38" width="148" height="74" rx="10"/><text x="902" y="70">Records</text><text x="902" y="92" class="sub">EgoTrack, Excel, API</text></g>
+        <g class="arr"><path d="M154 75h40"/><path d="M370 75h40"/><path d="M586 75h40"/><path d="M782 75h40"/></g>
+      </svg>
+    </figure>
+
+    <div class="principle">
+      <h3>Why the model never totals</h3>
+      <p>A model that reads a page and also adds it up can produce a total that looks right and is wrong, and the owner cannot tell by looking. So the model only copies what is written. Everything numeric is done by ordinary code, and the code also cross-checks the model against itself. Disagreements are flagged, never silently corrected.</p>
+      <ul class="plain">
+        <li>Each parsed total must appear among the numbers in the line the model transcribed.</li>
+        <li>The rows must add up to the total written at the foot of the page, and any difference is shown.</li>
+        <li>A struck-through debt is marked paid and flagged for the owner to confirm.</li>
+        <li>Nothing counts until a person has checked the page.</li>
+      </ul>
+    </div>
+
+    <div class="cols three">
+      <div><h3>It knows notebook habits</h3><p>A date on its own line starts a new day. A name written as a heading applies to the lines under it. A footer total is the page total, not a sale. A name with an amount and no payment mark is treated as owed and flagged.</p></div>
+      <div><h3>It adapts to each shop without training</h3><p>Names from checked pages become the shop's vocabulary, used as a spelling hint and to snap near misses to known names. Each snap is flagged so the owner can see and undo it. Every correction is also stored, which is the labelled data a later fine-tune would need.</p></div>
+      <div><h3>It copes with slow, flaky models</h3><p>Reading is asynchronous with a worker pool. Failed pages can be retried, work resumes after a restart, and the hosted client retries with backoff and rotates between models.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="try">
+  <div class="wrap">
+    <div class="label row-label"><span class="num">03</span><h2>Try the checks</h2></div>
+    <p class="intro">This is a simplified version of the checking step, running in your browser. Pick a transcribed page or edit the lines yourself. The real engine is in the repository, with the same ideas and more rules.</p>
+    <div class="lab">
+      <div class="lab-in">
+        <div class="seg" role="group" aria-label="Sample pages">
+          <button type="button" data-sample="clean" class="on">Clean page</button>
+          <button type="button" data-sample="messy">Page with misreads</button>
+        </div>
+        <label for="lines" class="sr">Transcribed lines</label>
+        <textarea id="lines" spellcheck="false" rows="9"></textarea>
+        <p class="hint">Use <code>qty x price = total</code>. Add <code>paid</code> or <code>owe</code>. Start a line with <code>~</code> for a struck-through line. A line starting <code>Total</code> is the page total. <code>2.5k</code> means 2,500.</p>
+      </div>
+      <div class="lab-out" aria-live="polite">
+        <table class="grid" id="out">
+          <thead><tr><th>Item</th><th class="n">Qty</th><th class="n">Price</th><th class="n">Total</th><th>Status</th><th>Checks</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p class="pagecheck" id="pagecheck"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" id="product">
+  <div class="wrap">
+    <div class="label row-label"><span class="num">04</span><h2>The product</h2></div>
+    <p class="intro">What the owner sees. These screens are rendered with synthetic data in the product's own design system, so no customer's record appears anywhere on this site.</p>
+    <div class="phones">
+      <figure>
+        <div class="phone" aria-hidden="true">
+          <div class="p-bar"><b>EgoTrack</b> Scan</div>
+          <div class="p-body">
+            <h4>Your shop</h4>
+            <p class="m">Clear records. Stronger trust. Better business decisions.</p>
+            <div class="owes"><small>Owes You</small><strong>&#8358;450,600</strong><span>8 customers owe you money, from pages you have checked.</span><div class="pbtn">See who owes you</div></div>
+            <div class="two"><div><small>Sales</small><strong>&#8358;347,000</strong></div><div><small>Collected</small><strong>&#8358;331,500</strong></div></div>
+            <div class="pbtn solid">Scan notebook pages</div>
+          </div>
+          <div class="p-tabs"><span class="on">Home</span><span>Scan</span><span>Owes You</span><span>Reports</span><span>Trust</span></div>
+        </div>
+        <figcaption><b>Home.</b> The first number is the one that matters: what customers owe the shop.</figcaption>
+      </figure>
+      <figure>
+        <div class="phone" aria-hidden="true">
+          <div class="p-bar"><b>EgoTrack</b> Scan</div>
+          <div class="p-body">
+            <h4>Adaeze</h4>
+            <p class="m">Owes &#8358;38,500 across 3 checked entries</p>
+            <ul class="led">
+              <li><span>12 Oct, oil 5 x 3,000</span><b>&#8358;15,000</b></li>
+              <li><span>14 Oct, rice 2 x 14,000</span><b>&#8358;28,000</b></li>
+              <li><span>Part payment</span><b class="neg">&minus;&#8358;4,500</b></li>
+            </ul>
+            <div class="pbtn solid">Remind on WhatsApp</div>
+            <div class="pbtn">Record Payment</div>
+            <div class="pbtn">Copy statement</div>
+          </div>
+          <div class="p-tabs"><span>Home</span><span>Scan</span><span class="on">Owes You</span><span>Reports</span><span>Trust</span></div>
+        </div>
+        <figcaption><b>A customer's ledger.</b> Remind on WhatsApp, a copyable statement, and Record Payment.</figcaption>
+      </figure>
+      <figure>
+        <div class="phone" aria-hidden="true">
+          <div class="p-bar"><b>EgoTrack</b> Scan</div>
+          <div class="p-body">
+            <h4>Review</h4>
+            <p class="m">Highlighted fields need a look. Fix anything wrong, then mark the page as checked.</p>
+            <div class="pf"><label>Item</label><div>beans</div><label>Qty</label><div>4</div><label>Price</label><div>1,200</div><label>Total</label><div class="hl">4,900</div></div>
+            <p class="why">Written 4,900, quantity times price is 4,800. Check it.</p>
+            <div class="pbtn solid">Mark page as checked</div>
+          </div>
+          <div class="p-tabs"><span>Home</span><span class="on">Scan</span><span>Owes You</span><span>Reports</span><span>Trust</span></div>
+        </div>
+        <figcaption><b>Review.</b> The photo sits beside the rows on a larger screen. The reason for a doubt is always in plain words.</figcaption>
+      </figure>
+    </div>
+    <p class="cols-note">Also in the product: Reports and Insights, export to Excel and CSV, a Trust screen that states where data goes, light and dark themes, and records handed to EgoTrack in its own data model.</p>
+  </div>
+</section>
+
+<section class="sec" id="evidence">
+  <div class="wrap">
+    <div class="label row-label"><span class="num">05</span><h2>Evidence</h2></div>
+    <p class="intro">Every figure here is from a recorded run, with its date, model and settings in the repository. Where something is not measured, it says so.</p>
+
+    <h3 class="tt">Synthetic pages</h3>
+    <p class="sub">12 pages, 134 rows, run on 16 October 2026 with Gemma 4 (gemma-4-26b-a4b-it) on the Gemini API. These pages are much easier than real handwriting. They are not a claim about real-world accuracy.</p>
+    <div class="tscroll"><table class="data">
+      <thead><tr><th>Metric</th><th class="n">Strips</th><th class="n">Single image</th></tr></thead>
+      <tbody>
+        <tr><td>Rows found</td><td class="n">99.25%</td><td class="n">99.25%</td></tr>
+        <tr><td>Total exactly right, of rows found</td><td class="n">94.0%</td><td class="n">90.2%</td></tr>
+        <tr><td>Paid, owed or part marked correctly</td><td class="n">100.0%</td><td class="n">100.0%</td></tr>
+        <tr><td>Customer name correct</td><td class="n">100.0%</td><td class="n">100.0%</td></tr>
+        <tr><td>Wrong totals</td><td class="n">8</td><td class="n">13</td></tr>
+        <tr class="key"><td>Wrong totals that the checks flagged</td><td class="n">100.0%</td><td class="n">100.0%</td></tr>
+        <tr><td>Tokens per page</td><td class="n">3,076</td><td class="n">1,973</td></tr>
+      </tbody>
+    </table></div>
+    <p class="read">The number that matters is the highlighted row. Every wrong total was flagged, in both modes. A wrong figure the owner is told about is a prompt to look, not a loss. Several wrong totals came from lines such as <code>pure water 3 600 paid</code>, where it is genuinely ambiguous whether 600 is a price or the total. The checks notice that quantity times price disagrees, and flag it for a person.</p>
+
+    <h3 class="tt">Real notebook photos</h3>
+    <p class="sub">22 photos from two real shop notebooks, run on 16 October 2026. They are hard: blurry, dim, tilted and compressed by messaging apps, with running totals, strike-throughs, point-of-sale entries and large amounts. The photos are not published because they hold customers' names and debts.</p>
+    <div class="tscroll"><table class="data">
+      <thead><tr><th>Notebook</th><th class="n">Photos</th><th class="n">Rows read</th><th class="n">Rows flagged for review</th><th class="n">Photos with no rows</th></tr></thead>
+      <tbody>
+        <tr><td>Shop A (small items, point-of-sale, debts)</td><td class="n">6</td><td class="n">46</td><td class="n">18 (39%)</td><td class="n">0</td></tr>
+        <tr><td>Shop B (large amounts)</td><td class="n">16</td><td class="n">163</td><td class="n">91 (56%)</td><td class="n">0</td></tr>
+        <tr class="key"><td>Both</td><td class="n">22</td><td class="n">209</td><td class="n">109 (52%)</td><td class="n">0</td></tr>
+      </tbody>
+    </table></div>
+    <p class="read">Every photo produced rows. Two returned nothing on the first pass because the notebook filled a small part of the frame, and were recovered by an automatic zoomed retry. The 52% is a review burden, not an error rate: many flags sit on heading lines, running totals and lines with no amount, which are not sales. There is no ground truth for these pages yet, so the figure does not say how many rows are correct. Reducing the noise is the next improvement.</p>
+
+    <h3 class="tt">Which checks fired on the real pages</h3>
+    <div class="tscroll"><table class="data compact">
+      <thead><tr><th>Flag</th><th>Meaning</th><th class="n">Rows</th></tr></thead>
+      <tbody>
+        <tr><td><code>no_item</code></td><td>A line with an amount but no item name</td><td class="n">55</td></tr>
+        <tr><td><code>no_amount</code></td><td>A line with no readable amount</td><td class="n">41</td></tr>
+        <tr><td><code>crossed_out</code></td><td>Struck through, treated as paid, owner confirms</td><td class="n">14</td></tr>
+        <tr><td><code>owed_no_name</code></td><td>Marked owed with no customer name</td><td class="n">10</td></tr>
+        <tr><td><code>total_not_in_raw</code></td><td>Parsed total not among the numbers in the line read</td><td class="n">6</td></tr>
+        <tr><td><code>ambiguous_separator</code></td><td>Forms like 33/000 that can be read two ways</td><td class="n">6</td></tr>
+        <tr><td><code>unreadable_qty</code></td><td>Quantity could not be read</td><td class="n">3</td></tr>
+        <tr><td><code>math_mismatch</code>, <code>unreadable_amount</code>, <code>assumed_owed</code>, <code>part_without_amount</code></td><td>One row each</td><td class="n">1 each</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 class="tt">Engineering</h3>
+    <div class="tscroll"><table class="data compact">
+      <thead><tr><th>What</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Automated tests</td><td>106 passing, run in CI. They cover parsing, checks, dates, snapping, the page cross-check, debts, summaries, the HTTP layer, failure and retry, and resume after restart.</td></tr>
+        <tr><td>Import into EgoTrack's real store</td><td>Records imported through EgoTrack's own public functions. The store's own derived values (record count, customer count, per-customer balance, Owes You total) matched the bundle's summary, to the naira.</td></tr>
+        <tr><td>End to end with the hosted model</td><td>Gemma 4 on the Gemini API read real notebook photographs and synthetic pages through the real server and interface.</td></tr>
+        <tr><td>Lint, static analysis</td><td>Clean in CI. Static analysis: 11 findings before fixes, none high, 0 after.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 class="tt">What has not been verified</h3>
+    <ul class="plain wide">
+      <li><b>Accuracy on real handwriting against ground truth.</b> There is no ground truth yet. The real-page numbers above measure workload and review burden, not correctness.</li>
+      <li><b>The local, private model path.</b> It is implemented behind the same interface and covered by tests against fakes, but it has not been run end to end, so its quality and speed are not claimed.</li>
+      <li><b>The larger Gemma 4 model.</b> It was a fallback that returned capacity errors most of the day, so no results are attributed to it.</li>
+      <li><b>Any real user.</b> No trader has used the product day to day yet.</li>
+    </ul>
+
+    <h3 class="tt">What testing found, and what changed</h3>
+    <ul class="plain wide">
+      <li>An early benchmark showed no rows on half the pages. The cause was the page generator, which had picked a font with no Latin glyphs, so those pages were rows of empty boxes and the model was right to return nothing. The generator was fixed and those results discarded. The lesson recorded: look at the inputs before blaming the model.</li>
+      <li>On real pages the page-total check caught a row duplicated across a strip boundary because the two readings spelled it slightly differently. Overlap duplicates are now matched fuzzily.</li>
+      <li>A photo with the notebook in a small corner of the frame returned no rows. Empty pages are now retried once as zoomed tiles.</li>
+      <li>Splitting tall pages into strips gave fewer wrong totals (8 against 13) at about 56% more tokens per page, but fewer pages reconciled. Twelve pages cannot settle it, so the decision is marked for review once real ground truth exists.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec alt" id="security">
+  <div class="wrap">
+    <div class="label row-label"><span class="num">06</span><h2>Security</h2></div>
+    <p class="intro">A shop ledger is a list of who owes the shop money, so it was attacked before it was shown. This is the author's own assessment from 16 October 2026. It is not an independent audit or a certification.</p>
+    <div class="tscroll"><table class="data">
+      <thead><tr><th>Method</th><th>Scope</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr class="key"><td>Active penetration test</td><td>A running instance, 34 checks</td><td>10 failing before the fixes, 0 after</td></tr>
+        <tr><td>Static analysis (bandit)</td><td>All application, script and benchmark code</td><td>0 findings after fixes</td></tr>
+        <tr><td>Known-vulnerability lookup (OSV)</td><td>26 installed runtime packages</td><td>0 with known advisories</td></tr>
+        <tr><td>Secrets scan</td><td>Whole git history and tracked files</td><td>No keys, tokens or private keys</td></tr>
+        <tr><td>Browser sink review</td><td>The interface script</td><td>No innerHTML, eval, document.write or inline handlers</td></tr>
+        <tr><td>Browser click-through</td><td>18 checks with strict headers on</td><td>All pass, no script errors</td></tr>
+      </tbody>
+    </table></div>
+    <h3 class="tt">What the penetration test found, then fixed</h3>
+    <div class="tscroll"><table class="data compact">
+      <thead><tr><th>Finding</th><th>Severity</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td>Stored cross-site scripting through an upload that was both a valid image and HTML</td><td>High</td><td>Stored type and served type now come from the image's real format</td></tr>
+        <tr><td>No protection against DNS rebinding</td><td>High</td><td>Requests with an unapproved Host header are refused</td></tr>
+        <tr><td>No security headers</td><td>Medium</td><td>Strict content security policy, no framing, nosniff, referrer and permissions policies</td></tr>
+        <tr><td>Decompression bomb: a small file claiming 900 million pixels caused an error</td><td>Medium</td><td>Oversize images are refused with a clear message</td></tr>
+        <tr><td>SQL column names built from strings</td><td>Low</td><td>A guard refuses any column not on an allow-list. Values were always bound parameters</td></tr>
+        <tr><td>CI had default token permissions</td><td>Low</td><td>Workflow now requests read-only access</td></tr>
+      </tbody>
+    </table></div>
+    <h3 class="tt">Privacy by design</h3>
+    <p class="read">With a local model, photos never leave the computer. With the hosted model, only the photo and an item-name hint are sent, customer names are never added to the prompt, and the first screen says so. Everything after the model call (parsing, checks, storage, debts, exports) runs locally. There are no accounts, telemetry, analytics or third-party scripts in the app.</p>
+    <h3 class="tt">Still open, written down</h3>
+    <ul class="plain wide">
+      <li>There is no sign-in yet. The app listens on the local machine only.</li>
+      <li>Stored files are not encrypted. There are no backups.</li>
+      <li>Builder API keys are a list in an environment variable, with no per-key quota or revocation.</li>
+      <li>No third-party audit and no fuzzing.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec" id="decisions">
+  <div class="wrap">
+    <div class="label row-label"><span class="num">07</span><h2>Decisions that shape it</h2></div>
+    <p class="intro">Each is written down with its context, what was chosen and what was rejected, so a later change supersedes it in the open.</p>
+    <dl class="dec">
+      <div><dt>The model transcribes, code calculates</dt><dd>A model that also adds up can be confidently wrong. Every number the owner sees traces to text on the page and a deterministic rule.</dd></div>
+      <div><dt>Pluggable vision backends, local by default</dt><dd>One interface with a local flag. Local Gemma on the owner's computer is the default, and the hosted model serves machines that cannot run one.</dd></div>
+      <div><dt>Asynchronous reading with a worker pool</dt><dd>A slow model must not freeze the interface or lose work. Pages queue in SQLite, and anything left reading after a crash is resubmitted on start.</dd></div>
+      <div><dt>Adapt with a shop vocabulary, not training</dt><dd>Per-shop fine-tuning needs labelled data and GPU time no owner has. Confirmed pages build a vocabulary instead, and each correction is kept as future training data.</dd></div>
+      <div><dt>Read tall pages in overlapping strips</dt><dd>The vision encoder works at a fixed size, so a full page can make small writing illegible. Strips give more pixels per character, and the cost is measured against a single image.</dd></div>
+      <div><dt>Nothing counts until a person has checked it</dt><dd>A wrong number could send an owner to chase money that is not owed. Debts, totals, exports and vocabulary are built only from confirmed pages.</dd></div>
+      <div><dt>The engine is open source, the product is separate</dt><dd>The reading engine is generic and MIT licensed, with a versioned API. EgoTrack's own application stays a separate product, integrated through its data model.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="sec alt" id="opportunity">
+  <div class="wrap">
+    <div class="label row-label"><span class="num">08</span><h2>The opportunity</h2></div>
+    <div class="two inner">
+      <div class="body">
+        <p class="big">Every shop that still keeps a notebook is a customer who cannot start on any app without retyping it.</p>
+        <p>Market size is not measured yet, so no TAM figure is claimed here. A number nobody has validated would only weaken the numbers that are real.</p>
+        <h3>Why now</h3>
+        <p>Open-weight multimodal models such as Gemma 4 can read handwriting at a cost a small business can carry, and can run on a local machine when data must stay put.</p>
+        <h3>What traders said</h3>
+        <p>Willingness to pay depended on one condition: their data and business must be secure. Three conversations, not a study.</p>
+      </div>
+      <div class="body">
+        <h3>Three business hypotheses to test</h3>
+        <p class="hyp"><b>EgoTrack on-ramp.</b> Every new merchant arrives with a notebook. Scanning turns it into their first month of records, which removes the biggest reason not to start.</p>
+        <p class="hyp"><b>Platform, per page.</b> Bookkeeping and fintech products call the API and pay per page to serve merchants who keep paper.</p>
+        <p class="hyp"><b>Market-side digitiser.</b> Someone runs it for a market and charges shops per notebook. A local model has near-zero marginal cost.</p>
+        <p class="fine">Willingness to pay is not validated for any of these.</p>
+      </div>
+    </div>
+
+    <h3 class="tt">Competition</h3>
+    <div class="tscroll"><table class="data">
+      <thead><tr><th>Option</th><th>What it does</th><th>Where it falls short</th></tr></thead>
+      <tbody>
+        <tr><td>Retype by hand</td><td>Owner or a clerk enters every line</td><td>Slow, so most never start</td></tr>
+        <tr><td>Generic text recognition</td><td>Reads printed text</td><td>Misreads notebook habits and does not check sums</td></tr>
+        <tr><td>Bookkeeping apps</td><td>Track records going forward</td><td>No way to bring existing paper in</td></tr>
+        <tr class="key"><td>EgoScan</td><td>Reads, checks, and hands the rows to the owner to confirm</td><td>Early. Real-handwriting accuracy not yet measured</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 class="tt">Go to market</h3>
+    <div class="cols three">
+      <div><h4>1. Start beside the user</h4><p>Begin with traders I can reach and watch use it, and get a real first user whose notebook is the test.</p></div>
+      <div><h4>2. Builders</h4><p>An open API, an MIT licence and an integration guide. Photo in, checked rows out.</p></div>
+      <div><h4>3. Word of mouth</h4><p>A trader who sees their own book as Owes You tells the next stall. Then the same notebook habits across other Nigerian markets.</p></div>
+    </div>
+
+    <h3 class="tt">For builders: the API</h3>
+    <pre class="code"><code>curl -X POST $HOST/api/v1/extract?format=egotrack \
+  -H "Authorization: Bearer $KEY" \
+  -F "file=@notebook-page.jpg"</code></pre>
+    <p class="read">Photo in, checked rows out. The call is stateless: nothing is stored. It supports optional API keys, a concurrency limit and OpenAPI docs. <code>format=egotrack</code> also returns the rows as records in EgoTrack's merchant data model, verified against EgoTrack's real store.</p>
+  </div>
+</section>
+
+<section class="sec" id="status">
+  <div class="wrap">
+    <div class="label row-label"><span class="num">09</span><h2>Status, team and what comes next</h2></div>
+    <div class="two inner">
+      <div class="body">
+        <h3>Honest status</h3>
+        <p>Built and tested. No paying or daily users yet. No revenue yet, and no projections are claimed because nothing here has been validated.</p>
+        <h3>Impact</h3>
+        <p>It gives a paper-keeping trader a usable record without retyping it. The engine is open source under MIT so other builders can serve the same merchants. A local model keeps every page on the machine, and the hosted path is stated plainly on a Trust screen.</p>
+        <h3>Team</h3>
+        <p>Nwokolo Victor, builder of EgoScan and EgoTrack. Designed, built, tested and secured the product. Grew up around the shops this is for. Shop owners consented to their notebooks being used for development. Their customers did not, which is why nothing from those pages is shown here and every demo uses synthetic pages.</p>
+      </div>
+      <div class="body">
+        <h3>Financials</h3>
+        <p>Cost to run today: hosted Gemma 4 on a free tier for the demo, with a daily page cap. A local model has near-zero marginal cost.</p>
+        <h3>To measure next</h3>
+        <p>Cost per page, seconds per page, and review time saved per notebook on real pages.</p>
+        <h3>To validate</h3>
+        <p>What a trader or a builder will pay, and whether they come back the next day.</p>
+        <h3>What funding would buy, in order</h3>
+        <ol class="plain num">
+          <li>Ground truth for real handwriting, so accuracy is measured and not guessed.</li>
+          <li>The private local model path, run end to end.</li>
+          <li>Sign-in and encryption at rest, the two open security items.</li>
+          <li>The first traders using it daily, and the first test of what they will pay.</li>
+        </ol>
+      </div>
+    </div>
+    <p class="closer">EgoTrack brings records in.<br>EgoScan brings paper in.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p><b>EgoScan</b>, MIT licensed. Built for Hacktoberfest Hack Day Abeokuta x Build54. Part of the <a href="../">NEVO hackathon hub</a>.</p>
+    <p><a href="https://github.com/nevodesigns/egoscan" target="_blank" rel="noopener">Source on GitHub</a></p>
+  </div>
+</footer>
+
+<script src="js/main.js" defer></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # NEVO-HACKATHON
 
-A single hub that brings Golazo, LogSight, SIWES LogChain, AGBE,
+A single hub that brings EgoScan, Golazo, LogSight, SIWES LogChain, AGBE,
 CircuitCoach and natlas-kit together as one static deploy. Each project is a
 real, working copy served from its own subpath, not just a link out to
 somewhere else, so the hub keeps working even if the original standalone
@@ -9,6 +9,13 @@ deliberate mirrors instead, see below).
 
 ## Projects
 
+- **EgoScan** (`/egoscan/`): paper to ledger. Reads photos of handwritten shop
+  notebooks with Gemma 4 and returns checked records; code does every sum and
+  check and the owner confirms. This is a static page with an in-browser demo of
+  the checks, the benchmark and security evidence, and the decisions behind it.
+  The engine itself lives at
+  [github.com/nevodesigns/egoscan](https://github.com/nevodesigns/egoscan). All
+  demo screens use synthetic data.
 - **Golazo** (`/golazo/`): agent-payable World Cup 2026 data API, x402
   micropayments on Injective. This is the landing page; the live agent-payment
   API/MCP server itself is a separate backend (see
@@ -56,6 +63,7 @@ public/
   golazo/        Static copy of golazo-site's public/ folder
   logsight/      Static copy of logsight's landing page, split into html/css/js
   siwes/         Built copy of siwes-logchain's frontend, base path /siwes/
+  egoscan/       Static product page for EgoScan (html, css, js, assets)
   agbe/          Static mirror of the AGBE site (absolute paths rewritten to /agbe/*)
   circuitcoach/  Static mirror of circuitcoach-site (landing page + app/ simulator,
                  absolute paths rewritten to /circuitcoach/*; no api/ backend)
