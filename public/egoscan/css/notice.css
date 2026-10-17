@@ -1,0 +1,9 @@
+dialog.repo-notice { border: 1px solid var(--border-strong, var(--border, #3a4048)); border-radius: 14px; background: var(--surface, var(--panel, #fff)); color: var(--ink, var(--text, #111)); padding: 28px 28px 22px; width: min(460px, calc(100vw - 32px)); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35); font: 400 15.5px/1.6 var(--sans, system-ui, -apple-system, "Segoe UI", sans-serif); }
+dialog.repo-notice::backdrop { background: rgba(8, 12, 10, 0.62); backdrop-filter: blur(3px); }
+dialog.repo-notice h2 { font: 500 26px/1.15 var(--serif, Georgia, serif); letter-spacing: -0.015em; margin: 0 0 12px; }
+dialog.repo-notice p { margin: 0 0 12px; color: var(--muted, #9aa1a9); }
+dialog.repo-notice p strong { color: var(--ink, var(--text, #111)); font-weight: 600; }
+dialog.repo-notice .repo-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+dialog.repo-notice button { font: 600 14.5px var(--sans, system-ui, sans-serif); min-height: 44px; padding: 0 20px; border-radius: 8px; cursor: pointer; border: 1px solid var(--border-strong, var(--border, #3a4048)); background: transparent; color: var(--ink, var(--text, #111)); }
+dialog.repo-notice button.go { background: var(--primary, #0a6a5a); border-color: var(--primary, #0a6a5a); color: var(--on-primary, #fff); }
+dialog.repo-notice button:focus-visible { outline: 3px solid var(--primary, #0a6a5a); outline-offset: 2px; }

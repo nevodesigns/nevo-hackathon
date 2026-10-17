@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/notice.css">
 <script src="js/theme-init.js"></script>
 </head>
 <body>
@@ -346,7 +347,7 @@
       <div><dt>Adapt with a shop vocabulary, not training</dt><dd>Per-shop fine-tuning needs labelled data and GPU time no owner has. Confirmed pages build a vocabulary instead, and each correction is kept as future training data.</dd></div>
       <div><dt>Read tall pages in overlapping strips</dt><dd>The vision encoder works at a fixed size, so a full page can make small writing illegible. Strips give more pixels per character, and the cost is measured against a single image.</dd></div>
       <div><dt>Nothing counts until a person has checked it</dt><dd>A wrong number could send an owner to chase money that is not owed. Debts, totals, exports and vocabulary are built only from confirmed pages.</dd></div>
-      <div><dt>The engine is open source, the product is separate</dt><dd>The reading engine is generic and MIT licensed, with a versioned API. EgoTrack's own application stays a separate product, integrated through its data model.</dd></div>
+      <div><dt>The engine is generic, the product is separate</dt><dd>The reading engine is generic and MIT licensed, with a versioned API. EgoTrack's own application stays a separate product, integrated through its data model.</dd></div>
     </dl>
   </div>
 </section>
@@ -386,7 +387,7 @@
     <h3 class="tt">Go to market</h3>
     <div class="cols three">
       <div><h4>1. Start beside the user</h4><p>Begin with traders I can reach and watch use it, and get a real first user whose notebook is the test.</p></div>
-      <div><h4>2. Builders</h4><p>An open API, an MIT licence and an integration guide. Photo in, checked rows out.</p></div>
+      <div><h4>2. Builders</h4><p>A documented API, an MIT licence and an integration guide. Photo in, checked rows out.</p></div>
       <div><h4>3. Word of mouth</h4><p>A trader who sees their own book as Owes You tells the next stall. Then the same notebook habits across other Nigerian markets.</p></div>
     </div>
 
@@ -406,7 +407,7 @@
         <h3>Honest status</h3>
         <p>Built and tested. No paying or daily users yet. No revenue yet, and no projections are claimed because nothing here has been validated.</p>
         <h3>Impact</h3>
-        <p>It gives a paper-keeping trader a usable record without retyping it. The engine is open source under MIT so other builders can serve the same merchants. A local model keeps every page on the machine, and the hosted path is stated plainly on a Trust screen.</p>
+        <p>It gives a paper-keeping trader a usable record without retyping it. The engine is MIT licensed so other builders can serve the same merchants once the full product launches. A local model keeps every page on the machine, and the hosted path is stated plainly on a Trust screen.</p>
         <h3>Team</h3>
         <p>Nwokolo Victor, builder of EgoScan and EgoTrack. Designed, built, tested and secured the product. Grew up around the shops this is for. Shop owners consented to their notebooks being used for development. Their customers did not, which is why nothing from those pages is shown here and every demo uses synthetic pages.</p>
       </div>
@@ -435,10 +436,11 @@
 <footer class="foot">
   <div class="wrap foot-in">
     <p><b>EgoScan</b>, MIT licensed. Built for Hacktoberfest Hack Day Abeokuta x Build54. Part of the <a href="../">NEVO hackathon hub</a>.</p>
-    <p><a href="https://github.com/nevodesigns/egoscan" target="_blank" rel="noopener">Source on GitHub</a></p>
+    <p><a href="https://github.com/nevodesigns/egoscan" target="_blank" rel="noopener" data-private-repo>Source on GitHub</a></p>
   </div>
 </footer>
 
 <script src="js/main.js" defer></script>
+<script src="js/repo-notice.js" defer></script>
 </body>
 </html>
