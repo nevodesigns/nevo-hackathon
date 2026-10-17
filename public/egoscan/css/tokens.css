@@ -1,0 +1,118 @@
+/* EgoTrack design tokens: Merchant Light (default) and Ledger Midnight (data-theme="dark"). Values as used in the EgoScan product. */
+
+:root {
+  color-scheme: light;
+  --brand-ego-green: #25d366;
+  --brand-ledger-green: #075e54;
+  --brand-receipt-mint: #effff4;
+  --brand-ink: #121c18;
+  --brand-proof-gold: #f5b942;
+  --color-page: #eff2ef;
+  --color-paper: #f8f9f6;
+  --color-surface: #ffffff;
+  --color-surface-2: #eef3f0;
+  --color-surface-3: #e4ece7;
+  --color-ink: #18201d;
+  --color-muted: #65726d;
+  --color-quiet: #8a9792;
+  --color-border: #d6dfda;
+  --color-border-strong: #b9c7c1;
+  --color-primary: #0a6a5a;
+  --color-primary-strong: #084f44; 
+  --color-on-primary: #ffffff;     
+  --color-secondary: #244f7a;      
+  --color-accent: #6e4ec8;         
+  --color-success: #1f7a58;
+  --color-warning: #a96f17;        
+  --color-danger: #b74d45;         
+  --color-success-soft: #e5f4ee;
+  --color-warning-soft: #fff3d8;
+  --color-danger-soft: #fff0ee;
+  --color-info-soft: #e8f0f7;      
+  --shadow-card: 0 10px 28px rgba(20, 42, 36, 0.07);
+  --shadow-raised: 0 26px 72px rgba(20, 42, 36, 0.16);
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --text-display: 36px;        
+  --text-page-title: 26px;     
+  --text-section-title: 18px;  
+  --text-card-title: 16px;     
+  --text-body: 15px;           
+  --text-helper: 13px;         
+  --text-button: 15px;         
+  --text-label: 12px;          
+  --text-amount: 26px;         
+  --text-metadata: 12px;       
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --radius-sm: 6px;      
+  --radius: 8px;         
+  --radius-modal: 12px;  
+  --radius-pill: 999px;  
+  --tap-target: 48px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-page: #080c0a;
+  --color-paper: #0d130f;
+  --color-surface: #121614;
+  --color-surface-2: #171e1a;
+  --color-surface-3: #202a25;
+  --color-ink: #f5faf7;
+  --color-muted: #a6b4ae;
+  --color-quiet: #7f8d87;
+  --color-border: rgba(255, 255, 255, 0.09);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-primary: #10b981;
+  --color-primary-strong: #0ea374; 
+  --color-on-primary: #062116;
+  --color-secondary: #7fd8d1;
+  --color-accent: #8fb7ff;         
+  --color-success: #74e0aa;
+  --color-warning: #f5b942;
+  --color-danger: #f87171;
+  --color-success-soft: #0f281f;
+  --color-warning-soft: #2c2411;
+  --color-danger-soft: #2d1718;
+  --color-info-soft: #122327;
+  --shadow-card: 0 10px 28px rgba(0, 0, 0, 0.22);
+  --shadow-raised: 0 24px 62px rgba(0, 0, 0, 0.4);
+}
+.type-display {
+  font: 900 var(--text-display) / 1.05 var(--font-sans);
+}
+.type-page-title {
+  font: 850 var(--text-page-title) / 1.15 var(--font-sans);
+}
+.type-section-title {
+  font: 800 var(--text-section-title) / 1.25 var(--font-sans);
+}
+.type-card-title {
+  font: 800 var(--text-card-title) / 1.25 var(--font-sans);
+}
+.type-body {
+  font: 450 var(--text-body) / 1.45 var(--font-sans);
+}
+.type-helper {
+  font: 500 var(--text-helper) / 1.35 var(--font-sans);
+}
+.type-button {
+  font: 800 var(--text-button) / 1.2 var(--font-sans);
+}
+.type-label {
+  font: 750 var(--text-label) / 1.2 var(--font-sans);
+}
+.type-amount {
+  font: 900 var(--text-amount) / 1.1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+.type-metadata {
+  font: 650 var(--text-metadata) / 1.25 var(--font-sans);
+}

@@ -9,7 +9,8 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400..900&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/notice.css">
 <script src="js/theme-init.js"></script>
@@ -19,10 +20,11 @@
 
 <header class="top">
   <div class="wrap top-in">
-    <a class="brand" href="#top" aria-label="EgoScan, top of page"><img src="assets/favicon.svg" alt="" width="28" height="28"><span>EgoScan</span></a>
+    <a class="brand" href="#top" aria-label="EgoScan, top of page"><img src="assets/favicon.svg" alt="" width="30" height="30"><span class="wm">Ego<span>Scan</span></span></a>
     <nav aria-label="Sections">
       <a href="#problem">Problem</a>
       <a href="#how">How it works</a>
+      <a href="#product">The product</a>
       <a href="#try">Try the checks</a>
       <a href="#evidence">Evidence</a>
       <a href="#security">Security</a>
@@ -138,85 +140,55 @@
   </div>
 </section>
 
-<section class="sec" id="try">
+<section class="sec alt" id="product">
   <div class="wrap">
-    <div class="label row-label"><span class="num">03</span><h2>Try the checks</h2></div>
-    <p class="intro">This is a simplified version of the checking step, running in your browser. Pick a transcribed page or edit the lines yourself. The real engine is in the repository, with the same ideas and more rules.</p>
-    <div class="lab">
-      <div class="lab-in">
-        <div class="seg" role="group" aria-label="Sample pages">
-          <button type="button" data-sample="clean" class="on">Clean page</button>
-          <button type="button" data-sample="messy">Page with misreads</button>
-        </div>
-        <label for="lines" class="sr">Transcribed lines</label>
-        <textarea id="lines" spellcheck="false" rows="9"></textarea>
-        <p class="hint">Use <code>qty x price = total</code>. Add <code>paid</code> or <code>owe</code>. Start a line with <code>~</code> for a struck-through line. A line starting <code>Total</code> is the page total. <code>2.5k</code> means 2,500.</p>
+    <div class="label row-label"><span class="num">03</span><h2>The product</h2></div>
+    <p class="intro">Screenshots of EgoScan running, reading synthetic notebook pages. No customer's record appears on this site. Pick a screen.</p>
+    <div class="tour">
+      <div class="tour-tabs" role="tablist" aria-label="Product screens">
+        <button type="button" role="tab" aria-selected="true" data-shot="review"><b>Review</b><span>The photo beside the rows. Every doubtful field says why.</span></button>
+        <button type="button" role="tab" aria-selected="false" data-shot="home"><b>Home</b><span>What customers owe the shop, before anything else.</span></button>
+        <button type="button" role="tab" aria-selected="false" data-shot="owes"><b>Owes You</b><span>Every customer who owes, largest first.</span></button>
+        <button type="button" role="tab" aria-selected="false" data-shot="ledger"><b>A customer's ledger</b><span>Remind on WhatsApp, copy a statement, Record Payment.</span></button>
+        <button type="button" role="tab" aria-selected="false" data-shot="reports"><b>Reports and Insights</b><span>Every figure is added up by the program, from checked pages only.</span></button>
+        <button type="button" role="tab" aria-selected="false" data-shot="trust"><b>Trust</b><span>Where photos go and what is stored, said plainly.</span></button>
       </div>
-      <div class="lab-out" aria-live="polite">
-        <table class="grid" id="out">
-          <thead><tr><th>Item</th><th class="n">Qty</th><th class="n">Price</th><th class="n">Total</th><th>Status</th><th>Checks</th></tr></thead>
-          <tbody></tbody>
-        </table>
-        <p class="pagecheck" id="pagecheck"></p>
-      </div>
+      <figure class="tour-view">
+        <div class="frame wide" id="frame"><img id="tour-img" src="assets/shots/review.webp" width="2000" height="1560" alt="The Review screen: a photographed notebook page beside the rows read from it, with a doubtful field highlighted and a reason in plain words." decoding="async"></div>
+        <figcaption id="tour-cap">Review. Highlighted fields are the ones the checks distrust. Fix anything wrong, then mark the page as checked.</figcaption>
+      </figure>
     </div>
+    <p class="cols-note">Also in the product: export to Excel and CSV, a shop vocabulary that learns names from checked pages, light and dark themes, and records handed to EgoTrack in its own data model.</p>
   </div>
 </section>
 
-<section class="sec alt" id="product">
+<section class="sec" id="try">
   <div class="wrap">
-    <div class="label row-label"><span class="num">04</span><h2>The product</h2></div>
-    <p class="intro">What the owner sees. These screens are rendered with synthetic data in the product's own design system, so no customer's record appears anywhere on this site.</p>
-    <div class="phones">
-      <figure>
-        <div class="phone" aria-hidden="true">
-          <div class="p-bar"><b>EgoTrack</b> Scan</div>
-          <div class="p-body">
-            <h4>Your shop</h4>
-            <p class="m">Clear records. Stronger trust. Better business decisions.</p>
-            <div class="owes"><small>Owes You</small><strong>&#8358;450,600</strong><span>8 customers owe you money, from pages you have checked.</span><div class="pbtn">See who owes you</div></div>
-            <div class="two"><div><small>Sales</small><strong>&#8358;347,000</strong></div><div><small>Collected</small><strong>&#8358;331,500</strong></div></div>
-            <div class="pbtn solid">Scan notebook pages</div>
+    <div class="label row-label"><span class="num">04</span><h2>Try the checks</h2></div>
+    <p class="intro">A simplified version of the checking step, running in your browser. Edit the transcription, or edit a field on a row: editing a row clears its flag, as in the product. Then mark the page as checked and see what reaches Owes You. The real engine has more rules and is in the repository.</p>
+    <div class="egoapp" id="egoapp">
+      <div class="ea-bar"><span class="ea-brand">Ego<span>Scan</span></span><span class="ea-mode">Demo. Runs in your browser, nothing is sent anywhere.</span></div>
+      <div class="ea-main">
+        <div class="ea-head"><h3>Review</h3><p class="ea-help">Highlighted fields need a look. Fix anything wrong, then mark the page as checked.</p></div>
+        <div class="ea-cols">
+          <div class="ea-left">
+            <div class="ea-samples" role="group" aria-label="Sample pages">
+              <button type="button" class="ea-btn secondary on" data-sample="messy">Page with misreads</button>
+              <button type="button" class="ea-btn secondary" data-sample="clean">Clean page</button>
+            </div>
+            <label class="ea-lab" for="lines">What the model transcribed (edit it)</label>
+            <textarea id="lines" class="ea-paper" rows="10" spellcheck="false"></textarea>
+            <p class="ea-help">One line per row: <code>qty x price = total</code>, then <code>paid</code> or <code>owe</code>. Put a customer first as <code>Name - item</code>. Start a line with <code>~</code> for a struck-through line. A line starting <code>Total</code> is the page total. <code>2.5k</code> means 2,500.</p>
           </div>
-          <div class="p-tabs"><span class="on">Home</span><span>Scan</span><span>Owes You</span><span>Reports</span><span>Trust</span></div>
-        </div>
-        <figcaption><b>Home.</b> The first number is the one that matters: what customers owe the shop.</figcaption>
-      </figure>
-      <figure>
-        <div class="phone" aria-hidden="true">
-          <div class="p-bar"><b>EgoTrack</b> Scan</div>
-          <div class="p-body">
-            <h4>Adaeze</h4>
-            <p class="m">Owes &#8358;38,500 across 3 checked entries</p>
-            <ul class="led">
-              <li><span>12 Oct, oil 5 x 3,000</span><b>&#8358;15,000</b></li>
-              <li><span>14 Oct, rice 2 x 14,000</span><b>&#8358;28,000</b></li>
-              <li><span>Part payment</span><b class="neg">&minus;&#8358;4,500</b></li>
-            </ul>
-            <div class="pbtn solid">Remind on WhatsApp</div>
-            <div class="pbtn">Record Payment</div>
-            <div class="pbtn">Copy statement</div>
+          <div class="ea-right">
+            <div id="entries" class="ea-entries"></div>
+            <div class="ea-checkline" id="pagecheck" aria-live="polite"></div>
+            <button type="button" class="ea-btn block" id="markbtn">Mark page as checked</button>
+            <div class="ea-owes" id="owescard" aria-live="polite"></div>
           </div>
-          <div class="p-tabs"><span>Home</span><span>Scan</span><span class="on">Owes You</span><span>Reports</span><span>Trust</span></div>
         </div>
-        <figcaption><b>A customer's ledger.</b> Remind on WhatsApp, a copyable statement, and Record Payment.</figcaption>
-      </figure>
-      <figure>
-        <div class="phone" aria-hidden="true">
-          <div class="p-bar"><b>EgoTrack</b> Scan</div>
-          <div class="p-body">
-            <h4>Review</h4>
-            <p class="m">Highlighted fields need a look. Fix anything wrong, then mark the page as checked.</p>
-            <div class="pf"><label>Item</label><div>beans</div><label>Qty</label><div>4</div><label>Price</label><div>1,200</div><label>Total</label><div class="hl">4,900</div></div>
-            <p class="why">Written 4,900, quantity times price is 4,800. Check it.</p>
-            <div class="pbtn solid">Mark page as checked</div>
-          </div>
-          <div class="p-tabs"><span>Home</span><span class="on">Scan</span><span>Owes You</span><span>Reports</span><span>Trust</span></div>
-        </div>
-        <figcaption><b>Review.</b> The photo sits beside the rows on a larger screen. The reason for a doubt is always in plain words.</figcaption>
-      </figure>
+      </div>
     </div>
-    <p class="cols-note">Also in the product: Reports and Insights, export to Excel and CSV, a Trust screen that states where data goes, light and dark themes, and records handed to EgoTrack in its own data model.</p>
   </div>
 </section>
 
